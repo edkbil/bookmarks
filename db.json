@@ -1,0 +1,76 @@
+{
+  "list": [
+    {
+      "icon": "1656489861325.png",
+      "href": "https://appstorrent.ru/",
+      "title": "appstorrent",
+      "order": "1",
+      "color": "rgba(2, 1, 2, 1)",
+      "id": 1
+    },
+    {
+      "icon": "1656535428490.png",
+      "href": "https://sweet.tv/ru",
+      "title": "sweet_6",
+      "color": "#1eb808",
+      "order": "2",
+      "id": 2
+    },
+    {
+      "icon": "1656489933410.png",
+      "href": "https://coldfilm.su/",
+      "title": "coldfilm",
+      "order": "3",
+      "color": "rgba(0, 0, 0, 1)",
+      "id": 3
+    },
+    {
+      "icon": "1656489956757.png",
+      "href": "https://www.deviantart.com/topic/customization/",
+      "title": "deviantart",
+      "order": "5",
+      "color": "rgba(2, 1, 1, 1)",
+      "id": 4
+    },
+    {
+      "icon": "1656490006063.png",
+      "href": "https://multiplex.ua/cinema/khmelnytskyi/oazis",
+      "title": "multiple",
+      "order": "4",
+      "color": "#404a36",
+      "id": 5
+    },
+    {
+      "icon": "1656535407820.png",
+      "href": "https://www.olx.ua/",
+      "title": "olx",
+      "color": "#10dfb1",
+      "order": "6",
+      "id": 6
+    },
+    {
+      "icon": "1656489903931.png",
+      "href": "https://www.asos.com/men/",
+      "title": "asos",
+      "order": "7",
+      "color": "#000000",
+      "id": 7
+    },
+    {
+      "icon": "1656675783486.png",
+      "href": "https://www.youtube.com/",
+      "title": "You Tube",
+      "color": "#f30000",
+      "order": "8",
+      "id": 8
+    },
+    {
+      "icon": "1656711160731.png",
+      "id": "9",
+      "title": "wer2_234",
+      "href": "wer2_dd",
+      "color": "#03ba6f",
+      "order": "9"
+    }
+  ]
+}

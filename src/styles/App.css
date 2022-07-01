@@ -1,0 +1,389 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400&display=swap');
+*{
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+#root{
+    position: relative;
+}
+h1{
+    text-align: center;
+}
+.list{
+    width: 1396px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    /* gap: 10px; */
+    gap: 0px;
+    padding: 40px 0 20px 0;
+}
+.list .item{
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    width: 148px;
+    height: 74px;
+
+    margin-right: 8px;
+    margin-bottom: 8px;
+
+    border: 2px solid #fff;
+    transition: 0.3s;
+    opacity: 0.6;
+    /* cursor: move; */
+}
+.list.editing .item{
+    opacity: 1;
+}
+.list .item:hover{
+    opacity: 1;
+}
+.list .item.over{
+    border: 2px solid rgb(0, 255, 0);
+  }
+.list .item a{
+    /* display: flex; */
+    width: 100%;
+    color: #fff;
+    text-decoration: none;
+    font-size: 20px;
+    text-align: left;
+    display: table;
+}
+.list .item a .icon{
+    width: 44px;
+    height: 44px;
+    background: rgb(255 255 255 / 50%);
+    border-radius: 50%;
+    margin: 13px 10px 13px 10px;
+    display: flex;
+}
+.list .item a .icon img{
+    max-width: 65%;
+    max-height: 65%;
+    display: block;
+    margin: auto;
+}
+.list .item a span{
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 15px;
+    width: 100%;
+}
+.list .item .close{
+    background: url("../img//close.png") no-repeat;
+    background-size: contain;
+    cursor: pointer;
+    border: none;
+    width: 5px;
+    height: 5px;
+    transition: 0.2s;
+
+    position: absolute;
+    right: 0px;
+    top: 7px;
+    /* opacity: 0; */
+
+    right: 5px;
+    top: 5px;
+    width: 15px;
+    height: 15px;
+}
+.list.editing .item .close{
+    opacity: 0.7;
+    cursor: pointer;
+
+    right: 5px;
+    top: 5px;
+    width: 15px;
+    height: 15px;
+}
+.list.editing .item .close:hover{
+    opacity: 1;
+}
+.list .item .move{
+    background: url("../img/move.png") no-repeat;
+    background-size: contain;
+    cursor: pointer;
+    border: none;
+    width: 5px;
+    height: 5px;
+    transition: 0.2s;
+
+    position: absolute;
+    right: 0px;
+    bottom: 7px;
+    /* opacity: 0; */
+
+    right: 5px;
+    bottom: 5px;
+    width: 15px;
+    height: 15px;
+}
+.list.editing .item .move{
+    opacity: 0.7;
+    cursor: pointer;
+
+    right: 5px;
+    bottom: 5px;
+    width: 15px;
+    height: 15px;
+}
+.list.editing .item .move:hover{
+    opacity: 1;
+}
+.list .item .settings{
+    background: url("../img/settings.png") no-repeat;
+    background-size: contain;
+    cursor: pointer;
+    border: none;
+    width: 5px;
+    height: 5px;
+    transition: 0.2s;
+
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    margin: auto;
+    bottom: 7px;
+    /* opacity: 0; */
+
+    bottom: 5px;
+    width: 15px;
+    height: 15px;
+}
+.list.editing .item .settings{
+    opacity: 0.7;
+    cursor: pointer;
+
+    bottom: 5px;
+    width: 15px;
+    height: 15px;
+}
+.list.editing .item .settings:hover{
+    opacity: 1;
+}
+.list .item.item-new{
+    background: #e2e2e2;
+    border: 2px solid #e2e2e2;
+    cursor: pointer;
+    opacity: 0;
+    transition: 0.5s;
+    box-shadow: 0px 0px 16px 2px rgba(0,0,0,0.3);
+}
+.list.editing .item.item-new{
+    display: none;
+}
+.list .item.item-new img{
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin: auto;
+    transition: 0.7s;
+}
+.list .item.item-new:hover{
+    opacity: 1;
+}
+.list .item.item-new:hover img{
+    width: 50px;
+    height: 50px;
+}
+.overlay{
+    background: #ffffffb3;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.add-form{
+    background: #f7f7f7;
+    padding: 10px;
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    margin: auto;
+    border-radius: 6px;
+    box-shadow: 0px 0px 9px 2px rgba(0,0,0,0.18);
+    transition: 0.3s;
+}
+.add-form .hide-form{
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    right: -20px;
+    top: -20px;
+    cursor: pointer;
+    opacity: 0.3;
+    transition: 0.3s;
+}
+.add-form .hide-form img{
+    width: 100%;
+    height: 100%;
+}
+.add-form .hide-form:hover{
+    opacity: 1;
+}
+.add-form input{
+    display: block;
+    margin: 10px auto;
+    border: none;
+    width: 100%;
+    height: 35px;
+    padding: 0 10px 0 10px;
+    margin: 0 0 10px 0;
+    border-radius: 6px;
+}
+.add-form input:focus{
+    outline: none;
+}
+.add-form button{
+    display: block;
+    margin: 10px auto;
+}
+/* .add-form .colorCheck{
+    color: #787878;
+    width: 100%;
+    cursor: pointer;
+    background: #fff;
+    padding: 9px 0 8px 11px;
+    font-size: 13px;
+    font-family: system-ui;
+} */
+.add-form .setColor{
+    overflow: hidden;
+    /* height: 0px; */
+    transition: 0.5s;
+}
+.add-form .setColor.open{
+    height: auto;
+}
+.add-form .fileWrap{
+    padding: 10px 0 0 0;
+}
+.add-form .fileWrap input{
+    display: none;
+}
+.add-form .fileWrap .getFile{
+    background: rgb(78, 136, 202);
+    border: none;
+    color: #fff;
+    text-transform: uppercase;
+    padding: 4px 20px 4px 50px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 15px;
+    display: table;
+    margin: auto;
+    position: relative;
+}
+.add-form .fileWrap .getFile::before{
+    position: absolute;
+    content: "";
+    background: url('../img/fiel.png') no-repeat;
+    width: 20px;
+    height: 20px;
+    background-size: cover;
+    left: 16px;
+}
+.add-form .fileWrap .getFile:hover{
+    background: rgb(98, 164, 240);
+}
+.add-form .icon{
+    background: #000;
+    width: 150px;
+    height: 150px;
+    margin: auto;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    position: relative;
+}
+.add-form .icon img{
+    max-width: 70%;
+    max-height: 70%;
+    display: block;
+    margin: auto;
+}
+.add-form .icon .trash{
+    background: url("../img//trash.png") no-repeat;
+    width: 30px;
+    height: 30px;
+    background-size: cover;
+    position: absolute;
+    right: -43px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: 0.3s;
+}
+.add-form .icon .trash:hover{
+    opacity: 1;
+}
+.add-form button[type="submit"]{
+    background: rgb(78, 202, 134);
+    border: none;
+    color: #fff;
+    text-transform: uppercase;
+    padding: 4px 30px 4px 30px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 15px;
+}
+.add-form button[type="submit"]:hover{
+    background: rgb(46, 138, 87);
+}
+.react-colorful{
+    width: 100% !important;
+}
+.edit-mode{
+    width: 1320px;
+    margin: auto;
+    text-align: right;
+    padding: 20px 0 0 0;
+}
+.edit-mode button{
+    position: relative;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+.edit-mode button::before{
+    position: absolute;
+    content: "";
+    background: #e1e1e1;
+    width: 30px;
+    height: 13px;
+    border-radius: 30px;
+    right: -35px;
+    bottom: 2px;
+    transition: 0.3s;
+}
+.edit-mode button::after{
+    position: absolute;
+    content: "";
+    background: #fff;
+    border: 1px solid #d8d8d8;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    right: -17px;
+    bottom: -1px;
+    box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.3);
+    transition: 0.5s;
+}
+.edit-mode button.active::before{
+    background: #2cb154;
+}
+.edit-mode button.active::after{
+    right: -44px;
+}
