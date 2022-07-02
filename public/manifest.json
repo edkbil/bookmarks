@@ -1,0 +1,15 @@
+{
+	"manifest_version": 2,
+	"name": "new bookmarks",
+	"author": "ed",
+	"version": "1.0.1",
+	"description": "bookmarks",
+	"icons": {
+		"16": "eFav16.ico",
+		"48": "eFav48.ico",
+		"128": "eFav128.ico"
+	},
+	"chrome_url_overrides": {
+		"newtab": "index.html"
+	}
+}
