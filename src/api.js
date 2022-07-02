@@ -4,13 +4,13 @@ const client = axios.create({
     baseURL: 'http://localhost:3333'
 })
 
-client.interceptors.request.use(function (config) {
-  if (config.method === 'post') {
-    config.data.append('createdTime', Date.now());
-  }
+// client.interceptors.request.use(function (config) {
+//   if (config.method === 'post') {
+//     config.data.append('createdTime', Date.now());
+//   }
 
-  return config;
-});
+//   return config;
+// });
 
 function formDataGenerator (body){
   const formData = new FormData();
@@ -49,4 +49,9 @@ export function removeListItem (listItemId, removeIconName) {
 export function editListItem (body, listItemId) {
   return client
     .patch("/list/" + listItemId, body)
+}
+
+export function generetePage () {
+  return client
+    .post("/generete");
 }

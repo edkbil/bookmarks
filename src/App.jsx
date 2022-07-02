@@ -1,7 +1,12 @@
 import "./styles/Sidebar.css";
 import "./styles/App.css";
 import { useState, useEffect } from "react";
-import { createListItem, removeListItem, editListItem } from "./api.js";
+import {
+  createListItem,
+  removeListItem,
+  editListItem,
+  generetePage,
+} from "./api.js";
 import List from "./components/List";
 import Form from "./components/Form";
 
@@ -143,6 +148,12 @@ function App() {
 
   return (
     <div>
+      <button
+        onClick={generetePage}
+        style={{ position: "fixed", zIndex: "999" }}
+      >
+        asdasdad
+      </button>
       <List
         list={list}
         isLoaded={isLoaded}

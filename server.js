@@ -7,6 +7,7 @@ const fs = require("fs");
 const util = require("util");
 const formidable = require("formidable");
 const copyFile = util.promisify(fs.copyFile);
+const { exec } = require("child_process");
 
 server.use(middlewares);
 
@@ -65,6 +66,20 @@ server.use((req, _res, next) => {
       ...fields,
     };
     next();
+  });
+});
+
+server.post('/generete', () => {
+  exec("npm run generetePage", (error, stdout, stderr) => {
+      if (error) {
+          console.log(`error: ${error.message}`);
+          return;
+      }
+      if (stderr) {
+          console.log(`stderr: ${stderr}`);
+          return;
+      }
+      console.log(`stdout: ${stdout}`);
   });
 });
 

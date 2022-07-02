@@ -15,7 +15,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "nodemon ./server.js localhost 3333"
+    "server": "nodemon ./server.js localhost 3333",
+    "generetePage": "mustache db.json pageTemplate.mustache > output.html"
   },
   "eslintConfig": {
     "extends": [
@@ -38,6 +39,7 @@
   "devDependencies": {
     "formidable": "^2.0.1",
     "json-server": "^0.17.0",
+    "mustache": "^4.2.0",
     "nodemon": "^2.0.18"
   }
 }
