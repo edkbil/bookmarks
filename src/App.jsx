@@ -1,7 +1,6 @@
 import "./styles/Sidebar.css";
 import "./styles/App.css";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { createListItem, removeListItem, editListItem } from "./api.js";
 import List from "./components/List";
 import Form from "./components/Form";
@@ -111,14 +110,17 @@ function App() {
 
   async function handleEdit(editingItem) {
     if (Array.isArray(editingItem)) {
-      const tempItem = editingItem[1];
+      const [temmIcon, tempItem] = editingItem;
       const tempIdToRemove = tempItem.id;
-      const temmIconToRemove = editingItem[0].oldIcon;
+      const temmIconToRemove = temmIcon.oldIcon;
 
       await removeListItem(tempIdToRemove, temmIconToRemove);
-      await createListItem(tempItem, true);
-      await axios.get("http://localhost:3333/list").then((resp) => {
-        setList(resp.data);
+      await createListItem(tempItem, true).then(({ data: { icon } }) => {
+        const tempItemWithNewIcon = { ...tempItem, icon };
+        setList([
+          ...list.filter((listItem) => listItem.id !== tempIdToRemove),
+          tempItemWithNewIcon,
+        ]);
       });
     } else {
       let resList = [...list];
