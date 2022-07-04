@@ -217,47 +217,9 @@ function App() {
         />
       )}
       <div className="generete-page-wrap">
-        <button onClick={generetePage}>Сформувати статичну сторінку</button>
-
         <button
           onClick={() => {
-            console.log(dbListId);
-            select("bd-list", dbListId).then((res) => {
-              console.log(res);
-              // console.log(res[Object.keys(res)[0]]);
-              // console.log(res);
-              // console.log([Object.keys()[0]]);
-            });
-          }}
-        >
-          вивід із стореджа
-        </button>
-
-        <button
-          onClick={() => {
-            update("bd-list", dbListId, [{ ne: 1 }, { da: 2 }]);
-            // remove("collection1").then((res) => {
-            //   console.log(res.data);
-            // });
-          }}
-        >
-          перезапис
-        </button>
-
-        <button
-          onClick={() => {
-            getBd(dbListId).then((res) => {
-              console.log(dbListId);
-              console.log(res);
-            });
-          }}
-        >
-          00000000
-        </button>
-
-        <button
-          onClick={() => {
-            remove("bd-list", "aH5pVcgHuKBy");
+            remove("bd-list", "NXrjYyk9QOWG");
           }}
         >
           xxx

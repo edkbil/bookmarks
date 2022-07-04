@@ -8,7 +8,6 @@ function Form({ onCreate, onClose, editing, onEdit, selectedItem }) {
   const [title, setTitle] = useState(!editing ? "" : selectedItem.title);
   const [color, setColor] = useState(!editing ? "#aabbcc" : selectedItem.color);
   const [file, setFile] = useState();
-  const [renderImgIcon, setRenderImgIcon] = useState(false);
 
   const inputEl = useRef(null);
   const onButtonClick = () => {
@@ -23,8 +22,8 @@ function Form({ onCreate, onClose, editing, onEdit, selectedItem }) {
     );
     editIconResult = editIconProceed[selectedItem.icon];
   }
-  const [editIcon, srtEditIcon] = useState(
-    !editing ? "" : <img src={editIconResult} alt="icon" />
+  const [renderImgIcon, setRenderImgIcon] = useState(
+    !editing ? false : editIconResult
   );
 
   const [changeFile, setChangeFile] = useState(false);
@@ -90,33 +89,13 @@ function Form({ onCreate, onClose, editing, onEdit, selectedItem }) {
             <button className="getFile" onClick={onButtonClick} type="button">
               Зображення
             </button>
-
-            {editing && (
+            {editing || renderImgIcon ? (
               <div className="icon" style={{ background: color }}>
-                <button
-                  className="trash"
-                  type="button"
-                  onClick={() => {
-                    srtEditIcon("");
-                  }}
-                ></button>
-                {editIcon}
-              </div>
-            )}
-
-            {renderImgIcon && (
-              <div className="icon" style={{ background: color }}>
-                <button
-                  className="trash"
-                  type="button"
-                  onClick={() => {
-                    setRenderImgIcon(false);
-                  }}
-                ></button>
                 <img src={renderImgIcon} alt="renderImgIcon" />
               </div>
+            ) : (
+              ""
             )}
-
             <input
               type="file"
               name="image"
@@ -125,10 +104,8 @@ function Form({ onCreate, onClose, editing, onEdit, selectedItem }) {
               onChange={(e) => {
                 let render = new FileReader();
                 render.onload = function (e) {
-                  if (!editing) {
-                    setRenderImgIcon(e.target.result);
-                  } else {
-                    srtEditIcon(<img src={e.target.result} alt="icon" />);
+                  setRenderImgIcon(e.target.result);
+                  if (editing) {
                     setChangeFile(true);
                   }
                 };
