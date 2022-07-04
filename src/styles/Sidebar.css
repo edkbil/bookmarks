@@ -1,5 +1,4 @@
-article
-{
+article{
     position: fixed;
     /* width: 70%; */
     left: 0;
@@ -16,9 +15,7 @@ article
     -o-transform-origin: 0 50%;
     transform-origin: 0 50%;
 }
-
-article:after
-{
+article:after{
     position: absolute;
     content: ' ';
     left: 100%;
@@ -32,12 +29,9 @@ article:after
     background-image: linear-gradient(right, rgba(0,0,0,0.2) 0%, transparent 100%);
     pointer-events: none;
 }
-
-nav
-{
+nav{
     position: fixed;
-    /* left: -16em; */
-    left: -6em;
+    left: -9em;
     top: 0;
     bottom: 0;
     background-color: #ebebebad;
@@ -46,9 +40,7 @@ nav
     z-index: 1;
     cursor: pointer;
 }
- 
-nav:after
-{
+nav:after{
     position: absolute;
     content: ' ';
     width: 0;
@@ -59,40 +51,30 @@ nav:after
     border-style: solid;
     border-color: transparent transparent transparent #ededed;
 }
-
-nav ul
-{
+nav ul{
     width: 14em;
     list-style-type: none;
     margin: 0;
     padding: 1em;
 }
-
-article, article:after, nav, nav *
-{
+article, article:after, nav, nav *{
     -webkit-transition: all 600ms ease;
     -moz-transition: all 600ms ease;
     -ms-transition: all 600ms ease;
     -o-transition: all 600ms ease;
     transition: all 600ms ease;
 }
-
-nav:hover
-{
+nav:hover{
     left: 0;
 }
-
-nav:hover ~ article
-{
+nav:hover ~ article{
     -webkit-transform: translateX(16em) perspective(600px) rotateY(10deg);
     -moz-transform: translateX(16em) perspective(600px) rotateY(10deg);
     -ms-transform: translateX(16em) perspective(600px) rotateY(10deg);
     -o-transform: translateX(16em) perspective(600px) rotateY(10deg);
     transform: translateX(16em) perspective(600px) rotateY(10deg);
 }
-
-nav:hover ~ article:after
-{
+nav:hover ~ article:after{
     left: 60%;
 }
 

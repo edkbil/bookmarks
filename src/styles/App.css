@@ -25,14 +25,12 @@ h1{
 
     width: 148px;
     height: 74px;
-
     margin-right: 8px;
     margin-bottom: 8px;
 
     border: 2px solid #fff;
     transition: 0.3s;
     opacity: 0.6;
-    /* cursor: move; */
 }
 .list.editing .item{
     opacity: 1;
@@ -42,15 +40,17 @@ h1{
 }
 .list .item.over{
     border: 2px solid rgb(0, 255, 0);
-  }
+}
 .list .item a{
-    /* display: flex; */
     width: 100%;
     color: #fff;
     text-decoration: none;
     font-size: 20px;
     text-align: left;
     display: table;
+}
+.list.editing .item a{
+    pointer-events: none;
 }
 .list .item a .icon{
     width: 44px;
@@ -386,4 +386,14 @@ h1{
 }
 .edit-mode button.active::after{
     right: -44px;
+}
+.generete-page-wrap{
+    width: 1400px;
+    margin: auto;
+    text-align: right;
+    padding: 20px 0 0 0;
+    position: fixed;
+    bottom: 20px;
+    left: 0px;
+    right: 0px;
 }

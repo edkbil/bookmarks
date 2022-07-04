@@ -22,22 +22,33 @@ function List({
   const toogleEditMode = () => setEditMode(!editMode);
 
   return !isLoaded ? (
-    <h1>Загрузка...</h1>
+    <h1>Завантаження...</h1>
   ) : (
     <div>
       <nav>
         <li>
-          <a href="#">asda</a>
+          <a href="chrome://settings/">settings</a>
         </li>
         <li>
-          <a href="#">asda</a>
+          <a href="chrome://apps/">apps</a>
         </li>
         <li>
-          <a href="#">asda</a>
+          <a href="https://docs.google.com/document/u/0/">document</a>
+        </li>
+        <li>
+          <a href="https://drive.google.com/drive/my-drive">my-drive</a>
+        </li>
+        <li>
+          <a href="extensions/" target="_blank">
+            extensions
+          </a>
+        </li>
+        <li>
+          <a href="chrome://bookmarks/?id=2">bookmarks</a>
         </li>
       </nav>
       <article>
-        <div className="list">
+        <div className={classNames("list", { editing: editMode })}>
           {list
             .sort((a, b) => a.order - b.order)
             .map((el) => {
