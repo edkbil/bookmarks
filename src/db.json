@@ -1,68 +1,31 @@
 {
   "list": [
     {
-      "icon": "1656489861325.png",
-      "href": "https://appstorrent.ru/",
-      "title": "appstorrent",
+      "icon": "google.png",
+      "href": "https://www.google.com/",
+      "title": "google",
       "order": "1",
-      "color": "rgba(2, 1, 2, 1)",
+      "color": "#4285f4",
+      "demo": "true",
       "id": 1
     },
     {
-      "icon": "1656535428490.png",
-      "href": "https://sweet.tv/ru",
-      "title": "sweet",
-      "color": "#1eb808",
+      "icon": "wallheaven.png",
+      "href": "https://wallhaven.cc/",
+      "title": "wallhaven",
+      "color": "#092f44",
       "order": "2",
+      "demo": "true",
       "id": 2
     },
     {
-      "icon": "1656489933410.png",
-      "href": "https://coldfilm.su/",
-      "title": "coldfilm",
+      "icon": "123apps.png",
+      "href": "https://123apps.com/ru/",
+      "title": "123apps",
       "order": "3",
-      "color": "rgba(0, 0, 0, 1)",
+      "color": "#fb3447",
+      "demo": "true",
       "id": 3
-    },
-    {
-      "icon": "1656489956757.png",
-      "href": "https://www.deviantart.com/topic/customization/",
-      "title": "deviantart",
-      "order": "4",
-      "color": "rgba(2, 1, 1, 1)",
-      "id": 4
-    },
-    {
-      "icon": "1656490006063.png",
-      "href": "https://multiplex.ua/cinema/khmelnytskyi/oazis",
-      "title": "multiple",
-      "order": "5",
-      "color": "#404a36",
-      "id": 5
-    },
-    {
-      "icon": "1656535407820.png",
-      "href": "https://www.olx.ua/",
-      "title": "olx",
-      "color": "#10dfb1",
-      "order": "6",
-      "id": 6
-    },
-    {
-      "icon": "1656489903931.png",
-      "href": "https://www.asos.com/men/",
-      "title": "asos",
-      "order": "7",
-      "color": "#000000",
-      "id": 7
-    },
-    {
-      "icon": "1656675783486.png",
-      "href": "https://www.youtube.com/",
-      "title": "You Tube",
-      "color": "#f30000",
-      "order": "8",
-      "id": 8
     }
   ]
 }

@@ -74,7 +74,11 @@ function List({
                 >
                   <a target="_blank" href={el.href}>
                     <div className="icon">
-                      <img src={icons[el.icon]} alt="icon" />
+                      {el.demo ? (
+                        <img src={icons[el.icon]} alt="icon" />
+                      ) : (
+                        <img src={el.icon} alt="icon" />
+                      )}
                     </div>
                     <span>{el.title}</span>
                   </a>

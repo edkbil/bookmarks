@@ -103,14 +103,15 @@ function Form({ onCreate, onClose, editing, onEdit, selectedItem }) {
               accept=".png"
               onChange={(e) => {
                 let render = new FileReader();
+
+                render.readAsDataURL(e.target.files[0]);
                 render.onload = function (e) {
                   setRenderImgIcon(e.target.result);
+                  setFile(render.result);
                   if (editing) {
                     setChangeFile(true);
                   }
                 };
-                render.readAsDataURL(e.target.files[0]);
-                setFile(e.target.files[0]);
               }}
             ></input>
           </div>
