@@ -313,21 +313,6 @@ h1{
     display: block;
     margin: auto;
 }
-.add-form .icon .trash{
-    background: url("../img//trash.png") no-repeat;
-    width: 30px;
-    height: 30px;
-    background-size: cover;
-    position: absolute;
-    right: -43px;
-    border: none;
-    cursor: pointer;
-    opacity: 0.5;
-    transition: 0.3s;
-}
-.add-form .icon .trash:hover{
-    opacity: 1;
-}
 .add-form button[type="submit"]{
     background: rgb(78, 202, 134);
     border: none;
@@ -387,6 +372,18 @@ h1{
 .edit-mode button.active::after{
     right: -44px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
 .generete-page-wrap{
     width: 1400px;
     margin: auto;

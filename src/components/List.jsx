@@ -1,6 +1,5 @@
 import { useState } from "react";
 import classNames from "classnames";
-import { importIcons } from "../modules/importIcons.js";
 import addImg from "../img/add.png";
 
 function List({
@@ -14,10 +13,6 @@ function List({
   viewAddForm,
   editFrom,
 }) {
-  const icons = importIcons(
-    require.context("../../images", false, /\.(png|jpe?g|svg)$/)
-  );
-
   const [editMode, setEditMode] = useState(false);
   const toogleEditMode = () => setEditMode(!editMode);
 
@@ -74,11 +69,7 @@ function List({
                 >
                   <a target="_blank" href={el.href}>
                     <div className="icon">
-                      {el.demo ? (
-                        <img src={icons[el.icon]} alt="icon" />
-                      ) : (
-                        <img src={el.icon} alt="icon" />
-                      )}
+                      <img src={el.icon} alt="icon" />
                     </div>
                     <span>{el.title}</span>
                   </a>

@@ -1,18 +1,12 @@
 import "./styles/Sidebar.css";
 import "./styles/App.css";
 import { useState, useEffect } from "react";
-import {
-  createListItem,
-  removeListItem,
-  editListItem,
-  generetePage,
-} from "./api.js";
 import List from "./components/List";
 import Form from "./components/Form";
 
 import easyDB from "easy-db-react-native";
 import bdList from "./db.json";
-import { getBd, createBd, removeBd, editBd } from "./api-bd.js";
+import { getBd, createBd, editBd } from "./bd.js";
 
 function App() {
   const [showAddForm, setShowAddForm] = useState(false);
@@ -66,7 +60,7 @@ function App() {
     if (confirmItemRemove) {
       let newList = [...list];
       newList = newList.filter((listItem) => listItem.id !== item.id);
-      removeBd(dbListId, newList).then((res) => {
+      editBd(dbListId, newList).then((res) => {
         setList(newList);
       });
       //server
@@ -153,41 +147,14 @@ function App() {
   }
 
   async function handleEdit(editingItem) {
-    if (Array.isArray(editingItem)) {
-      const [temmIcon, tempItem] = editingItem;
-      const tempIdToRemove = tempItem.id;
-      const temmIconToRemove = temmIcon.oldIcon;
+    let resList = [...list];
+    const editingItemIndex = resList.findIndex((e) => e.id == editingItem.id);
+    resList[editingItemIndex] = editingItem;
 
-      await removeListItem(tempIdToRemove, temmIconToRemove);
-      await createListItem(tempItem, true).then(({ data: { icon } }) => {
-        const tempItemWithNewIcon = { ...tempItem, icon };
-        setList([
-          ...list.filter((listItem) => listItem.id !== tempIdToRemove),
-          tempItemWithNewIcon,
-        ]);
-      });
-    } else {
-      let resList = [...list];
-      const editingItemIndex = resList.findIndex((e) => e.id == editingItem.id);
-      resList[editingItemIndex] = editingItem;
+    editBd(dbListId, resList).then(() => {
+      setList(resList);
+    });
 
-      editBd(dbListId, resList).then(() => {
-        setList(resList);
-      });
-
-      //server
-      // editListItem(
-      //   {
-      //     title: editingItem.title,
-      //     href: editingItem.href,
-      //     color: editingItem.color,
-      //   },
-      //   editingItem.id
-      // ).then((resp) => {
-      //   setList(resList);
-      // });
-      //server
-    }
     toogleAddForm();
   }
 
@@ -213,13 +180,13 @@ function App() {
           editing={editing}
           selectedItem={selectedItem}
           onEdit={handleEdit}
-          // onIconRemove={handleIconRemove}
         />
       )}
+
       <div className="generete-page-wrap">
         <button
           onClick={() => {
-            remove("bd-list", "NXrjYyk9QOWG");
+            remove("bd-list", "0RUurBxExDb8");
           }}
         >
           xxx

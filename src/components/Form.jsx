@@ -1,32 +1,18 @@
 import { useState, useRef } from "react";
 import { HexColorPicker } from "react-colorful";
-import { importIcons } from "../modules/importIcons.js";
 import closeImg from "../img/close2.png";
 
 function Form({ onCreate, onClose, editing, onEdit, selectedItem }) {
   const [href, setHref] = useState(!editing ? "" : selectedItem.href);
   const [title, setTitle] = useState(!editing ? "" : selectedItem.title);
   const [color, setColor] = useState(!editing ? "#aabbcc" : selectedItem.color);
-  const [file, setFile] = useState();
+  const [file, setFile] = useState(!editing ? false : selectedItem.icon);
 
   const inputEl = useRef(null);
   const onButtonClick = () => {
     // `current` указывает на смонтированный элемент `input`
     inputEl.current.click();
   };
-
-  let editIconResult = "";
-  if (editing) {
-    const editIconProceed = importIcons(
-      require.context("../../images", false, /\.(png|jpe?g|svg)$/)
-    );
-    editIconResult = editIconProceed[selectedItem.icon];
-  }
-  const [renderImgIcon, setRenderImgIcon] = useState(
-    !editing ? false : editIconResult
-  );
-
-  const [changeFile, setChangeFile] = useState(false);
 
   return (
     <div>
@@ -41,29 +27,14 @@ function Form({ onCreate, onClose, editing, onEdit, selectedItem }) {
               setHref("");
               setTitle("");
             } else {
-              if (!changeFile) {
-                onEdit({
-                  id: selectedItem.id,
-                  href,
-                  title,
-                  color,
-                  icon: selectedItem.icon,
-                });
-              } else {
-                onEdit([
-                  {
-                    oldIcon: selectedItem.icon,
-                  },
-                  {
-                    id: selectedItem.id,
-                    title,
-                    href,
-                    color,
-                    icon: file,
-                    order: selectedItem.order,
-                  },
-                ]);
-              }
+              onEdit({
+                href,
+                title,
+                color,
+                icon: file,
+                order: selectedItem.order,
+                id: selectedItem.id,
+              });
             }
           }}
           className="add-form"
@@ -89,9 +60,9 @@ function Form({ onCreate, onClose, editing, onEdit, selectedItem }) {
             <button className="getFile" onClick={onButtonClick} type="button">
               Зображення
             </button>
-            {editing || renderImgIcon ? (
+            {editing || file ? (
               <div className="icon" style={{ background: color }}>
-                <img src={renderImgIcon} alt="renderImgIcon" />
+                <img src={file} alt="renderImgIcon" />
               </div>
             ) : (
               ""
@@ -103,14 +74,9 @@ function Form({ onCreate, onClose, editing, onEdit, selectedItem }) {
               accept=".png"
               onChange={(e) => {
                 let render = new FileReader();
-
                 render.readAsDataURL(e.target.files[0]);
                 render.onload = function (e) {
-                  setRenderImgIcon(e.target.result);
                   setFile(render.result);
-                  if (editing) {
-                    setChangeFile(true);
-                  }
                 };
               }}
             ></input>
