@@ -336,13 +336,13 @@ h1{
     text-align: right;
     padding: 20px 0 0 0;
 }
-.edit-mode button{
+.edit-mode .edit-btn{
     position: relative;
     border: none;
     background: none;
     cursor: pointer;
 }
-.edit-mode button::before{
+.edit-mode .edit-btn::before{
     position: absolute;
     content: "";
     background: #e1e1e1;
@@ -353,7 +353,7 @@ h1{
     bottom: 2px;
     transition: 0.3s;
 }
-.edit-mode button::after{
+.edit-mode .edit-btn::after{
     position: absolute;
     content: "";
     background: #fff;
@@ -366,9 +366,9 @@ h1{
     box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.3);
     transition: 0.5s;
 }
-.edit-mode button.active::before{
+.edit-mode .edit-btn.active::before{
     background: #2cb154;
 }
-.edit-mode button.active::after{
+.edit-mode .edit-btn.active::after{
     right: -44px;
 }

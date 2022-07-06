@@ -15,6 +15,7 @@ function List({
 }) {
   const [editMode, setEditMode] = useState(false);
   const toogleEditMode = () => setEditMode(!editMode);
+  const [backup, setBackup] = useState("");
 
   return !isLoaded ? (
     <h1>Завантаження...</h1>
@@ -78,8 +79,39 @@ function List({
         </div>
       </div>
       <div className="edit-mode">
+        {editMode && (
+          <button
+            className="backupBtn"
+            onClick={() => {
+              const backupData =
+                "text/json;charset=utf-8," +
+                encodeURIComponent(JSON.stringify(list));
+
+              const date = new Date();
+              const day = date.toLocaleDateString();
+              const time = date.toLocaleTimeString().slice(0, -3);
+
+              const fileName = "bookmarksBackup-" + day + "-" + time + ".json";
+              setBackup(
+                <a
+                  className="backupLink"
+                  onClick={() => {
+                    setBackup("");
+                  }}
+                  href={"data:" + backupData}
+                  download={fileName}
+                >
+                  Скачати
+                </a>
+              );
+            }}
+          >
+            Зробити рез. копію
+          </button>
+        )}
+        {backup}
         <button
-          className={classNames({ active: editMode })}
+          className={classNames("edit-btn", { active: editMode })}
           type="button"
           onClick={toogleEditMode}
         >
