@@ -101,12 +101,15 @@ nav li p:hover{
 nav li img{
     width: 16px;
     height: 16px;
+    pointer-events: none;
 }
 nav li span{
     padding: 0 0 0 10px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: 13px;
+    pointer-events: none;
 }
 article, article:after, nav, nav *{
     -webkit-transition: all 600ms ease;

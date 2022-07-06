@@ -155,9 +155,27 @@ function App() {
     toogleAddForm();
   }
 
+  function handleFolderToofler(folderId) {
+    let newList = [...sidebarList];
+    const changeItemId = newList.findIndex(
+      (listItem) => listItem.id === folderId
+    );
+
+    const open = !newList[changeItemId].open;
+    newList[changeItemId] = { ...newList[changeItemId], open };
+
+    setDB("sidebar", folderId, { ...newList[changeItemId], open }).then(() => {
+      setSidebarList(newList);
+    });
+  }
+
   return (
     <div>
-      <Sidebar sidebarList={sidebarList} isLoadedSidebar={isLoadedSidebar} />
+      <Sidebar
+        sidebarList={sidebarList}
+        isLoadedSidebar={isLoadedSidebar}
+        folderToofler={handleFolderToofler}
+      />
       <List
         list={list}
         isLoaded={isLoaded}

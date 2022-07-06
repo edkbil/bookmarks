@@ -2,7 +2,7 @@ import { useState } from "react";
 import classNames from "classnames";
 import folderImg from "../img/folder.png";
 
-function Sidebar({ sidebarList, isLoadedSidebar }) {
+function Sidebar({ sidebarList, isLoadedSidebar, folderToofler }) {
   const [fixBar, setFixBar] = useState(false);
   const tooglefixBar = () => setFixBar(!fixBar);
 
@@ -37,7 +37,12 @@ function Sidebar({ sidebarList, isLoadedSidebar }) {
                 </li>
               ) : (
                 <li className={el.open ? "folder open" : "folder"}>
-                  <p>
+                  <p
+                    data-id={el.id}
+                    onClick={(e) => {
+                      folderToofler(parseInt(e.target.dataset.id));
+                    }}
+                  >
                     <img src={folderImg} alt="folderImg" />
                     <span>{el.title}</span>
                   </p>
@@ -59,7 +64,6 @@ function Sidebar({ sidebarList, isLoadedSidebar }) {
                           </li>
                         );
                       })}
-                      <li></li>
                     </ul>
                   )}
                 </li>
