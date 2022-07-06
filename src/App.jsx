@@ -13,6 +13,7 @@ function App() {
   const [list, setList] = useState();
   const [sidebarList, setSidebarList] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoadedSidebar, setIsLoadedSidebar] = useState(false);
 
   useEffect(() => {
     getDB("list").then((res) => {
@@ -29,14 +30,17 @@ function App() {
     });
 
     getDB("sidebar").then((res) => {
+      setIsLoadedSidebar(true);
       if (res.length == 0) {
         let addToSidebar = bdList.appData.sidebar;
         addToSidebar.map((e) => {
           setDB("sidebar", e.id, e);
         });
         setSidebarList(addToSidebar);
+        // setSidebarList("new");
       } else {
         setSidebarList(res);
+        // setSidebarList("old");
       }
     });
   }, []);
@@ -153,7 +157,7 @@ function App() {
 
   return (
     <div>
-      {/* <Sidebar sidebarList={sidebarList} /> */}
+      <Sidebar sidebarList={sidebarList} isLoadedSidebar={isLoadedSidebar} />
       <List
         list={list}
         isLoaded={isLoaded}

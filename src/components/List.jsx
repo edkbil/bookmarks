@@ -44,7 +44,7 @@ function List({
                 onDragEnd={drag}
                 // drag
               >
-                <a target="_blank" href={el.href}>
+                <a href={el.href}>
                   <div className="icon">
                     <img src={el.icon} alt="icon" />
                   </div>

@@ -1,6 +1,5 @@
 article{
     position: fixed;
-    /* width: 70%; */
     left: 0;
     top: 0;
     right: 0;
@@ -31,31 +30,83 @@ article:after{
 }
 nav{
     position: fixed;
-    left: -9em;
+    left: -20em;
     top: 0;
     bottom: 0;
     background-color: #ebebebad;
-    border-right: 50px solid #ebebeb00;
     box-shadow: 4px 0 5px rgb(0 0 0 / 9%);
     z-index: 1;
     cursor: pointer;
+    width: 330px;
 }
 nav:after{
     position: absolute;
     content: ' ';
     width: 0;
     height: 0;
-    right: -70px;
+    right: -20px;
     top: 50%;
     border-width: 15px 10px;
     border-style: solid;
     border-color: transparent transparent transparent #ededed;
 }
 nav ul{
-    width: 14em;
+    margin: 0px;
+    padding: 10px 5px 10px 10px;
+}
+nav .folder ul{
+    padding: 0px;
+}
+nav li{
     list-style-type: none;
-    margin: 0;
-    padding: 1em;
+    line-height: 33px;
+    overflow: hidden;
+    transition: 0.1s;
+    padding: 0 20px 0 20px;
+}
+nav>li:nth-child(2){
+    padding-top: 20px;
+}
+nav li:not(.folder):hover{
+    background: #fff;
+}
+nav li.folder{
+    padding: 0px;
+}
+nav li.folder ul{
+    display: none;
+}
+nav li.folder.open ul{
+    display: block;
+}
+nav li.folder li{
+    padding: 0 20px 0 40px;
+}
+nav li a{
+    text-decoration: none;
+    color: #000;
+    display: flex;
+    align-items: center;
+}
+nav li p{
+    margin: 0px;
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+    padding: 0 20px 0 20px;
+}
+nav li p:hover{
+    background: #fff;
+}
+nav li img{
+    width: 16px;
+    height: 16px;
+}
+nav li span{
+    padding: 0 0 0 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 article, article:after, nav, nav *{
     -webkit-transition: all 600ms ease;
@@ -77,4 +128,48 @@ nav:hover ~ article{
 nav:hover ~ article:after{
     left: 60%;
 }
+nav.fixed{
+    left: 0;
+}
+nav.fixed ~ article{
+    -webkit-transform: translateX(16em) perspective(600px) rotateY(10deg);
+    -moz-transform: translateX(16em) perspective(600px) rotateY(10deg);
+    -ms-transform: translateX(16em) perspective(600px) rotateY(10deg);
+    -o-transform: translateX(16em) perspective(600px) rotateY(10deg);
+    transform: translateX(16em) perspective(600px) rotateY(10deg);
+}
+nav.fixed ~ article:after{
+    left: 60%;
+}
 
+nav .tools{
+    position: absolute;
+    top: 10px;
+    right: 5px;
+}
+nav .tools button{
+    width: 20px;
+    height: 20px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: none;
+    margin: 0 5px 0 5px;
+    transition: 0.2s;
+    cursor: pointer;
+    opacity: 0.1;
+}
+nav .tools .fixed{
+    background-image: url("../img/moveSide.png");
+}
+nav .tools .add{
+    background-image: url("../img/addSide.png");
+}
+nav .tools:hover button{
+    opacity: 0.4;
+}
+nav .tools button:hover{
+    opacity: 1;
+}
+nav .tools button.active{
+    opacity: 1;
+}
