@@ -2,72 +2,71 @@ import "./styles/Sidebar.css";
 import "./styles/App.css";
 import { useState, useEffect } from "react";
 import List from "./components/List";
+import Sidebar from "./components/Sidebar";
 import Form from "./components/Form";
 
-import easyDB from "easy-db-react-native";
 import bdList from "./db.json";
-import { getBd, createBd, editBd } from "./bd.js";
+import { getDB, setDB, removeDbList } from "./IndexedDb.js";
 
 function App() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [list, setList] = useState();
+  const [sidebarList, setSidebarList] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const { insert, select, update, remove } = easyDB();
-  const [dbListId, setDbListId] = useState();
-
   useEffect(() => {
-    //server
-    // fetch("http://localhost:3333/list")
-    // fetch("./db.json")
-    //   .then((res) => res.json())
-    //   .then((result) => {
-    //     setIsLoaded(true);
-    //     setList(result);
-    //server
-
-    select("bd-list").then((res) => {
+    getDB("list").then((res) => {
       setIsLoaded(true);
-
-      if (Object.keys(res).length === 0) {
-        insert("bd-list", bdList.list).then((id) => {
-          setList(bdList.list);
-          setDbListId(id);
+      if (res.length == 0) {
+        let addToList = bdList.appData.list;
+        addToList.map((e) => {
+          setDB("list", e.id, e);
         });
+        setList(addToList);
       } else {
-        setList(res[Object.keys(res)[0]]);
-        setDbListId([Object.keys(res)[0]][0]);
+        setList(res);
+      }
+    });
+
+    getDB("sidebar").then((res) => {
+      if (res.length == 0) {
+        let addToSidebar = bdList.appData.sidebar;
+        addToSidebar.map((e) => {
+          setDB("sidebar", e.id, e);
+        });
+        setSidebarList(addToSidebar);
+      } else {
+        setSidebarList(res);
       }
     });
   }, []);
 
   async function handleCreate(formValues) {
-    await createBd(dbListId, list, formValues);
-    await getBd(dbListId).then((res) => {
-      setList([...res]);
-    });
+    let id = new Date();
+    id = id.getTime();
 
-    //server
-    // createListItem(formValues, true, true, list).then(({ data }) => {
-    //   setList([...list, data]);
-    // });
-    //server
+    const orderList = list.map((listItem) => parseInt(listItem.order));
+    const orderMax = Math.max(...orderList) + 1;
+
+    const newItem = { ...formValues, id, order: orderMax };
+    const newList = [...list];
+    newList.push(newItem);
+
+    setDB("list", id, newItem).then((res) => {
+      setList(newList);
+    });
     setShowAddForm(false);
   }
 
-  function handleRemove(item, imgName) {
+  function handleRemove(item) {
     const confirmItemRemove = window.confirm("Точно видалити?");
     if (confirmItemRemove) {
       let newList = [...list];
       newList = newList.filter((listItem) => listItem.id !== item.id);
-      editBd(dbListId, newList).then((res) => {
+
+      removeDbList(item.id).then(() => {
         setList(newList);
       });
-      //server
-      // removeListItem(item.id, imgName).then((resp) => {
-      //   setList(list.filter((listItem) => listItem.id !== item.id));
-      // });
-      //server
     }
   }
 
@@ -76,7 +75,6 @@ function App() {
   const [dragTarget, setDragTarget] = useState({});
 
   function handleDrageStart(el, item) {
-    // console.log(item);
     el.style.opacity = "0.4";
     el.classList.add("over");
 
@@ -87,7 +85,6 @@ function App() {
   }
 
   function handleDrageEnter(el, item) {
-    // console.log(item);
     el.classList.add("over");
 
     setDragTarget({
@@ -120,14 +117,10 @@ function App() {
       }
     });
 
-    editBd(dbListId, newList).then(() => {
-      setList(newList);
-    });
+    await setDB("list", oldId, { ...dragSourser.item, order: newOrder });
+    await setDB("list", newId, { ...dragTarget.item, order: oldOrder });
 
-    //server
-    // await editListItem({ order: newOrder }, oldId);
-    // await editListItem({ order: oldOrder }, newId);
-    //server
+    setList(newList);
   }
   // drag
 
@@ -151,7 +144,7 @@ function App() {
     const editingItemIndex = resList.findIndex((e) => e.id == editingItem.id);
     resList[editingItemIndex] = editingItem;
 
-    editBd(dbListId, resList).then(() => {
+    setDB("list", editingItem.id, editingItem).then(() => {
       setList(resList);
     });
 
@@ -160,6 +153,7 @@ function App() {
 
   return (
     <div>
+      {/* <Sidebar sidebarList={sidebarList} /> */}
       <List
         list={list}
         isLoaded={isLoaded}
@@ -182,16 +176,6 @@ function App() {
           onEdit={handleEdit}
         />
       )}
-
-      <div className="generete-page-wrap">
-        <button
-          onClick={() => {
-            remove("bd-list", "0RUurBxExDb8");
-          }}
-        >
-          xxx
-        </button>
-      </div>
     </div>
   );
 }

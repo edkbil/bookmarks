@@ -372,25 +372,3 @@ h1{
 .edit-mode button.active::after{
     right: -44px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-.generete-page-wrap{
-    width: 1400px;
-    margin: auto;
-    text-align: right;
-    padding: 20px 0 0 0;
-    position: fixed;
-    bottom: 20px;
-    left: 0px;
-    right: 0px;
-}
