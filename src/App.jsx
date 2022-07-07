@@ -43,20 +43,34 @@ function App() {
     });
   }, []);
 
-  async function handleCreate(formValues) {
+  async function handleCreate(formValues, mode) {
     let id = new Date();
     id = id.getTime();
 
-    const orderList = list.map((listItem) => parseInt(listItem.order));
-    const orderMax = Math.max(...orderList) + 1;
+    if (mode != "sidebar") {
+      const orderList = list.map((listItem) => parseInt(listItem.order));
+      const orderMax = Math.max(...orderList) + 1;
 
-    const newItem = { ...formValues, id, order: orderMax };
-    const newList = [...list];
-    newList.push(newItem);
+      const newItem = { ...formValues, id, order: orderMax };
+      const newList = [...list];
+      newList.push(newItem);
 
-    setDB("list", id, newItem).then((res) => {
-      setList(newList);
-    });
+      setDB("list", id, newItem).then((res) => {
+        setList(newList);
+      });
+    } else {
+      const orderList = sidebarList.map((listItem) => parseInt(listItem.order));
+      const orderMax = Math.max(...orderList) + 1;
+
+      const newItem = { ...formValues, id, order: orderMax };
+      const newList = [...sidebarList];
+      newList.push(newItem);
+
+      setDB("sidebar", id, newItem).then((res) => {
+        setSidebarList(newList);
+      });
+    }
+
     setShowAddForm(false);
   }
 
@@ -128,27 +142,50 @@ function App() {
 
   const toogleAddForm = () => setShowAddForm(!showAddForm);
   const [editing, setEditing] = useState(false);
+  const [editingSidebar, setEditingSidebar] = useState(false);
   const [selectedItem, setSelectedItem] = useState();
 
-  function openCreationForm() {
-    setEditing(false);
+  function openCreationForm(mode) {
     setSelectedItem(undefined);
+
+    if (mode != "sidebar") {
+      setEditing(false);
+      setEditingSidebar(false);
+    } else {
+      setEditingSidebar(true);
+    }
+
     toogleAddForm();
   }
-  function runEditFrom(el) {
+  function runEditFrom(el, mode) {
     setEditing(true);
+    if (!mode == "sidebar") {
+      setEditingSidebar(false);
+    } else {
+      setEditingSidebar(true);
+    }
     setSelectedItem(el);
     toogleAddForm();
   }
 
-  async function handleEdit(editingItem) {
-    let resList = [...list];
-    const editingItemIndex = resList.findIndex((e) => e.id == editingItem.id);
-    resList[editingItemIndex] = editingItem;
+  async function handleEdit(editingItem, mode) {
+    if (!mode == "sidebar") {
+      let resList = [...list];
+      const editingItemIndex = resList.findIndex((e) => e.id == editingItem.id);
+      resList[editingItemIndex] = editingItem;
 
-    setDB("list", editingItem.id, editingItem).then(() => {
-      setList(resList);
-    });
+      setDB("list", editingItem.id, editingItem).then(() => {
+        setList(resList);
+      });
+    } else {
+      let resList = [...sidebarList];
+      const editingItemIndex = resList.findIndex((e) => e.id == editingItem.id);
+      resList[editingItemIndex] = editingItem;
+
+      setDB("sidebar", editingItem.id, editingItem).then(() => {
+        setSidebarList(resList);
+      });
+    }
 
     toogleAddForm();
   }
@@ -207,6 +244,8 @@ function App() {
         sidebarList={sidebarList}
         isLoadedSidebar={isLoadedSidebar}
         folderToofler={handleFolderToofler}
+        viewAddForm={openCreationForm}
+        editFrom={runEditFrom}
       />
       <List
         list={list}
@@ -228,6 +267,7 @@ function App() {
             toogleAddForm();
           }}
           editing={editing}
+          editingSidebar={editingSidebar}
           selectedItem={selectedItem}
           onEdit={handleEdit}
         />

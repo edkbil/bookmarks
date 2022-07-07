@@ -30,7 +30,7 @@ article:after{
 }
 nav{
     position: fixed;
-    left: -20em;
+    left: -320px;
     top: 0;
     bottom: 0;
     background-color: #ebebebad;
@@ -38,6 +38,8 @@ nav{
     z-index: 1;
     cursor: pointer;
     width: 330px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 nav:after{
     position: absolute;
@@ -175,4 +177,30 @@ nav .tools button:hover{
 }
 nav .tools button.active{
     opacity: 1;
+}
+.sidebarItemMenu{
+    background: #fff;
+    width: 130px;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #ddd9d9;
+    border-radius: 4px;
+    position: absolute;
+    z-index: 2;
+}
+.sidebarItemMenu button{
+    background: none;
+    width: 100%;
+    height: 50%;
+    border: none;
+    transition: 0.3s;
+    font-size: 14px;
+    cursor: pointer;
+    color: #878787;
+}
+.sidebarItemMenu button:hover{
+    background: #ddd9d963;
+    color: #000;
 }

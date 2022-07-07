@@ -36,6 +36,7 @@ function List({
               <div
                 className="item"
                 key={el.id}
+                draggable={editMode ? true : false}
                 style={{ background: el.color }}
                 // drag
                 onDragStart={(e) => {

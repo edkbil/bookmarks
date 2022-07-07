@@ -2,7 +2,14 @@ import { useState, useRef } from "react";
 import { HexColorPicker } from "react-colorful";
 import closeImg from "../img/close2.png";
 
-function Form({ onCreate, onClose, editing, onEdit, selectedItem }) {
+function Form({
+  onCreate,
+  onClose,
+  editing,
+  onEdit,
+  selectedItem,
+  editingSidebar,
+}) {
   const [href, setHref] = useState(!editing ? "" : selectedItem.href);
   const [title, setTitle] = useState(!editing ? "" : selectedItem.title);
   const [color, setColor] = useState(!editing ? "#aabbcc" : selectedItem.color);
@@ -22,19 +29,32 @@ function Form({ onCreate, onClose, editing, onEdit, selectedItem }) {
             e.preventDefault();
 
             if (!editing) {
-              onCreate({ href, title, color, icon: file });
+              !editingSidebar
+                ? onCreate({ href, title, color, icon: file })
+                : onCreate({ href, title, icon: "" }, "sidebar");
 
               setHref("");
               setTitle("");
             } else {
-              onEdit({
-                href,
-                title,
-                color,
-                icon: file,
-                order: selectedItem.order,
-                id: selectedItem.id,
-              });
+              !editingSidebar
+                ? onEdit({
+                    href,
+                    title,
+                    color,
+                    icon: file,
+                    order: selectedItem.order,
+                    id: selectedItem.id,
+                  })
+                : onEdit(
+                    {
+                      href,
+                      title,
+                      icon: "",
+                      order: selectedItem.order,
+                      id: selectedItem.id,
+                    },
+                    "sidebar"
+                  );
             }
           }}
           className="add-form"
@@ -55,32 +75,40 @@ function Form({ onCreate, onClose, editing, onEdit, selectedItem }) {
             value={href}
             onChange={(e) => setHref(e.target.value)}
           ></input>
-          <HexColorPicker color={color} onChange={setColor} />
-          <div className="fileWrap">
-            <button className="getFile" onClick={onButtonClick} type="button">
-              Зображення
-            </button>
-            {editing || file ? (
-              <div className="icon" style={{ background: color }}>
-                <img src={file} alt="renderImgIcon" />
+          {!editingSidebar && (
+            <>
+              <HexColorPicker color={color} onChange={setColor} />
+              <div className="fileWrap">
+                <button
+                  className="getFile"
+                  onClick={onButtonClick}
+                  type="button"
+                >
+                  Зображення
+                </button>
+                {editing || file ? (
+                  <div className="icon" style={{ background: color }}>
+                    <img src={file} alt="renderImgIcon" />
+                  </div>
+                ) : (
+                  ""
+                )}
+                <input
+                  type="file"
+                  name="image"
+                  ref={inputEl}
+                  accept=".png"
+                  onChange={(e) => {
+                    let render = new FileReader();
+                    render.readAsDataURL(e.target.files[0]);
+                    render.onload = function (e) {
+                      setFile(render.result);
+                    };
+                  }}
+                ></input>
               </div>
-            ) : (
-              ""
-            )}
-            <input
-              type="file"
-              name="image"
-              ref={inputEl}
-              accept=".png"
-              onChange={(e) => {
-                let render = new FileReader();
-                render.readAsDataURL(e.target.files[0]);
-                render.onload = function (e) {
-                  setFile(render.result);
-                };
-              }}
-            ></input>
-          </div>
+            </>
+          )}
           <button type="submit">
             {!editing ? "Додати" : "Зберегти зміни"}
           </button>
