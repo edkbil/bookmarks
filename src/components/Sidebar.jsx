@@ -23,7 +23,7 @@ function Sidebar({ sidebarList, isLoadedSidebar, folderToofler }) {
           return (
             <>
               {!el.folder ? (
-                <li>
+                <li key={el.id}>
                   <a href={el.href}>
                     <img
                       src={
@@ -36,7 +36,7 @@ function Sidebar({ sidebarList, isLoadedSidebar, folderToofler }) {
                   </a>
                 </li>
               ) : (
-                <li className={el.open ? "folder open" : "folder"}>
+                <li className={el.open ? "folder open" : "folder"} key={el.id}>
                   <p
                     data-id={el.id}
                     onClick={(e) => {
@@ -50,7 +50,7 @@ function Sidebar({ sidebarList, isLoadedSidebar, folderToofler }) {
                     <ul>
                       {el.internalLinks.map((subEl) => {
                         return (
-                          <li>
+                          <li key={subEl.id}>
                             <a href={subEl.href}>
                               <img
                                 src={

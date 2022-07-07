@@ -169,6 +169,39 @@ function App() {
     });
   }
 
+  function handleBackupBtn() {
+    const backupData = {
+      appData: { list: [...list], sidebar: [...sidebarList] },
+    };
+    return (
+      "text/json;charset=utf-8," +
+      encodeURIComponent(JSON.stringify(backupData))
+    );
+  }
+
+  // async function handleImportBtn(event) {
+  function handleImportBtn(event) {
+    var reader = new FileReader();
+    reader.addEventListener("load", function (event) {
+      var result = JSON.parse(reader.result);
+
+      let addToList = result.appData.list;
+      addToList.map((e) => {
+        // await setDB("list", e.id, e);
+        setDB("list", e.id, e);
+      });
+      setList(addToList);
+
+      let addToSidebar = result.appData.sidebar;
+      addToSidebar.map((e) => {
+        // await setDB("sidebar", e.id, e);
+        setDB("sidebar", e.id, e);
+      });
+      setSidebarList(addToSidebar);
+    });
+    reader.readAsText(event.target.files[0]);
+  }
+
   return (
     <div>
       <Sidebar
@@ -186,6 +219,8 @@ function App() {
         drag={handleDrage}
         viewAddForm={openCreationForm}
         editFrom={runEditFrom}
+        backupBtn={handleBackupBtn}
+        importBtn={handleImportBtn}
       />
       {showAddForm && (
         <Form

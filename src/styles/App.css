@@ -335,6 +335,10 @@ h1{
     margin: auto;
     text-align: right;
     padding: 20px 0 0 0;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }
 .edit-mode .edit-btn{
     position: relative;
@@ -371,4 +375,30 @@ h1{
 }
 .edit-mode .edit-btn.active::after{
     right: -44px;
+}
+.edit-mode .btn{
+    color: #fff;
+    border: none;
+    padding: 10px;
+    margin: 0 20px 0 0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.edit-mode .backupBtn{
+    background: #2cb154;
+}
+.edit-mode .backupBtn:hover{
+    background: #5ccf7e;
+}
+.edit-mode .importBtn{
+    background: #2b85db;
+}
+.edit-mode .importBtn:hover{
+    background: #59a2e8;
+}
+.edit-mode .backupLink{
+    color: #2cb154;
+    margin: 0 20px 0 0;
+    transition: 0.3s;
 }

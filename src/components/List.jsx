@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import classNames from "classnames";
 import addImg from "../img/add.png";
 
@@ -12,10 +12,17 @@ function List({
   drag,
   viewAddForm,
   editFrom,
+  backupBtn,
+  importBtn,
 }) {
   const [editMode, setEditMode] = useState(false);
   const toogleEditMode = () => setEditMode(!editMode);
   const [backup, setBackup] = useState("");
+
+  const inputEl = useRef(null);
+  const onButtonClick = () => {
+    inputEl.current.click();
+  };
 
   return !isLoaded ? (
     <h1>Завантаження...</h1>
@@ -27,9 +34,8 @@ function List({
           .map((el) => {
             return (
               <div
-                className="item draggable"
+                className="item"
                 key={el.id}
-                draggable="true"
                 style={{ background: el.color }}
                 // drag
                 onDragStart={(e) => {
@@ -41,7 +47,6 @@ function List({
                 onDragLeave={(e) => {
                   dragLeave(e.target, el);
                 }}
-                // onDragEnd={(e) => {
                 onDragEnd={drag}
                 // drag
               >
@@ -80,34 +85,50 @@ function List({
       </div>
       <div className="edit-mode">
         {editMode && (
-          <button
-            className="backupBtn"
-            onClick={() => {
-              const backupData =
-                "text/json;charset=utf-8," +
-                encodeURIComponent(JSON.stringify(list));
+          <>
+            <div className="importFile">
+              <input
+                type="file"
+                ref={inputEl}
+                name="file"
+                accept=".json"
+                style={{ display: "none" }}
+                onChange={(event) => {
+                  importBtn(event);
+                }}
+              />
+              <button className="btn importBtn" onClick={onButtonClick}>
+                Імпортувати данні
+              </button>
+            </div>
+            <button
+              className="btn backupBtn"
+              onClick={() => {
+                const backupData = backupBtn();
 
-              const date = new Date();
-              const day = date.toLocaleDateString();
-              const time = date.toLocaleTimeString().slice(0, -3);
+                const date = new Date();
+                const day = date.toLocaleDateString();
+                const time = date.toLocaleTimeString().slice(0, -3);
 
-              const fileName = "bookmarksBackup-" + day + "-" + time + ".json";
-              setBackup(
-                <a
-                  className="backupLink"
-                  onClick={() => {
-                    setBackup("");
-                  }}
-                  href={"data:" + backupData}
-                  download={fileName}
-                >
-                  Скачати
-                </a>
-              );
-            }}
-          >
-            Зробити рез. копію
-          </button>
+                const fileName =
+                  "bookmarksBackup-" + day + "-" + time + ".json";
+                setBackup(
+                  <a
+                    className="backupLink"
+                    onClick={() => {
+                      setBackup("");
+                    }}
+                    href={"data:" + backupData}
+                    download={fileName}
+                  >
+                    Скачати
+                  </a>
+                );
+              }}
+            >
+              Зробити рез. копію
+            </button>
+          </>
         )}
         {backup}
         <button
