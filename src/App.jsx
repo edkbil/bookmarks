@@ -6,7 +6,7 @@ import Sidebar from "./components/Sidebar";
 import Form from "./components/Form";
 
 import bdList from "./db.json";
-import { getDB, setDB, removeDbList } from "./IndexedDb.js";
+import { getDB, setDB, removeDbList, clearDB } from "./IndexedDb.js";
 
 function App() {
   const [showAddForm, setShowAddForm] = useState(false);
@@ -37,10 +37,8 @@ function App() {
           setDB("sidebar", e.id, e);
         });
         setSidebarList(addToSidebar);
-        // setSidebarList("new");
       } else {
         setSidebarList(res);
-        // setSidebarList("old");
       }
     });
   }, []);
@@ -179,26 +177,27 @@ function App() {
     );
   }
 
-  // async function handleImportBtn(event) {
   function handleImportBtn(event) {
     var reader = new FileReader();
     reader.addEventListener("load", function (event) {
       var result = JSON.parse(reader.result);
 
-      let addToList = result.appData.list;
-      addToList.map((e) => {
-        // await setDB("list", e.id, e);
-        setDB("list", e.id, e);
-      });
-      setList(addToList);
+      clearDB("list");
+      clearDB("sidebar");
 
-      let addToSidebar = result.appData.sidebar;
-      addToSidebar.map((e) => {
-        // await setDB("sidebar", e.id, e);
-        setDB("sidebar", e.id, e);
+      const listdata = result.appData.list;
+      listdata.map((el) => {
+        setDB("list", el.id, el);
       });
-      setSidebarList(addToSidebar);
+      setList(listdata);
+
+      const sidebarData = result.appData.sidebar;
+      sidebarData.map((el) => {
+        setDB("sidebar", el.id, el);
+      });
+      setSidebarList(sidebarData);
     });
+
     reader.readAsText(event.target.files[0]);
   }
 
