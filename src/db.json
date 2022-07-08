@@ -28,41 +28,85 @@
     ],
     "sidebar": [
       {
-        "title": "GitHub - typicode/json-server",
+        "title": "1 GitHub - typicode/json-server",
         "href": "https://github.com/typicode/json-server",
         "icon": "",
         "order": 1,
         "id": 1327018593812
       },
       {
-        "title": "Export multiple functions from a file in React.js",
+        "title": "2 Export multiple functions from a file in React.js",
         "href": "https://bobbyhadz.com/blog/react-export-multiple-functions#:~:text=Use%20named%20exports%20to%20export,necessary%20in%20a%20single%20file.",
         "icon": "",
         "order": 2,
         "id": 1327018593813
       },
       {
+        "title": "3 Export multiple functions from a file in React.js",
+        "href": "https://bobbyhadz.com/blog/react-export-multiple-functions#:~:text=Use%20named%20exports%20to%20export,necessary%20in%20a%20single%20file.",
+        "icon": "",
+        "order": 3,
+        "id": 1327018593713
+      },
+      {
+        "title": "4 Export multiple functions from a file in React.js",
+        "href": "https://bobbyhadz.com/blog/react-export-multiple-functions#:~:text=Use%20named%20exports%20to%20export,necessary%20in%20a%20single%20file.",
+        "icon": "",
+        "order": 4,
+        "id": 1327018593613
+      },
+      {
+        "title": "5 Export multiple functions from a file in React.js",
+        "href": "https://bobbyhadz.com/blog/react-export-multiple-functions#:~:text=Use%20named%20exports%20to%20export,necessary%20in%20a%20single%20file.",
+        "icon": "",
+        "order": 5,
+        "id": 1327018593513
+      },
+      {
+        "title": "6 Export multiple functions from a file in React.js",
+        "href": "https://bobbyhadz.com/blog/react-export-multiple-functions#:~:text=Use%20named%20exports%20to%20export,necessary%20in%20a%20single%20file.",
+        "icon": "",
+        "order": 6,
+        "id": 1327018593413
+      },
+      {
         "folder": true,
         "title": "folder 2",
-        "order": 3,
+        "order": 7,
         "open": true,
-        "id": 1327018593814,
-        "internalLinks": [
-          {
-            "title": "GitHub - typicode/json-server",
-            "href": "https://github.com/typicode/json-server",
-            "icon": "",
-            "order": 1,
-            "id": 1327018593815
-          },
-          {
-            "title": "Export multiple functions from a file in React.js",
-            "href": "https://bobbyhadz.com/blog/react-export-multiple-functions#:~:text=Use%20named%20exports%20to%20export,necessary%20in%20a%20single%20file.",
-            "icon": "",
-            "order": 2,
-            "id": 1327018593816
-          }
-        ]
+        "id": 1327018593814
+      },
+      {
+        "title": "7 GitHub - typicode/json-server",
+        "href": "https://github.com/typicode/json-server",
+        "icon": "",
+        "order": 1,
+        "id": 1327018593815,
+        "parent": 1327018593814
+      },
+      {
+        "title": "8 Export multiple functions from a file in React.js",
+        "href": "https://bobbyhadz.com/blog/react-export-multiple-functions#:~:text=Use%20named%20exports%20to%20export,necessary%20in%20a%20single%20file.",
+        "icon": "",
+        "order": 2,
+        "id": 1327018593816,
+        "parent": 1327018593814
+      },
+      {
+        "title": "9 GitHub - typicode/json-server",
+        "href": "https://github.com/typicode/json-server",
+        "icon": "",
+        "order": 3,
+        "id": 1327018593817,
+        "parent": 1327018593814
+      },
+      {
+        "title": "10 Export multiple functions from a file in React.js",
+        "href": "https://bobbyhadz.com/blog/react-export-multiple-functions#:~:text=Use%20named%20exports%20to%20export,necessary%20in%20a%20single%20file.",
+        "icon": "",
+        "order": 4,
+        "id": 1327018593818,
+        "parent": 1327018593814
       }
     ]
   }
