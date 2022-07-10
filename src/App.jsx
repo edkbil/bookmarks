@@ -245,6 +245,10 @@ function App() {
   function handleDragSidebarStart(el, item) {
     el.style.opacity = "0.4";
 
+    if (el.tagName.toLowerCase() == "li") {
+      el.classList.add("offChild");
+    }
+
     setDragSidebarSourser({
       el,
       item,
@@ -264,45 +268,50 @@ function App() {
     el.style.borderTop = "none";
   }
 
-  async function handleDragSidebar() {
+  async function handleDragSidebar(htmlItem) {
+    if (htmlItem.tagName.toLowerCase() == "li") {
+      htmlItem.classList.remove("offChild");
+    }
+
     dragSidebarSourser.el.style.opacity = "1";
 
     let newList = [...sidebarList];
 
     let oldOrder = dragSidebarSourser.item.order;
     let oldId = dragSidebarSourser.item.id;
-
     let newOrder = dragSidebarTarget.item.order;
-    let newId = dragSidebarTarget.item.id;
-
-    console.log("old - " + oldOrder);
-    console.log("new - " + newOrder);
 
     await clearDB("sidebar");
 
-    newList.map((el) => {
-      if (el.id === dragSidebarSourser.item.id) {
-        oldOrder < newOrder ? (el.order = newOrder - 1) : (el.order = newOrder);
-      } else if (el.order >= newOrder) {
-        oldOrder > newOrder && (el.order = el.order + 1);
-      } else if (el.order <= newOrder) {
+    if (dragSidebarSourser.item.parent && !dragSidebarTarget.item.parent) {
+      delete dragSidebarSourser.item.parent;
+    }
+    if (dragSidebarTarget.item.parent && !dragSidebarSourser.item.parent) {
+      dragSidebarSourser.item.parent = dragSidebarTarget.item.parent;
+    }
+
+    function sorting(el) {
+      if (el.id === oldId) {
+        el.order = newOrder;
+      } else if (el.order >= newOrder && el.order <= oldOrder) {
+        el.order = el.order + 1;
+      } else if (el.order <= newOrder && el.order >= oldOrder) {
         el.order = el.order - 1;
+      }
+    }
+
+    newList.map((el) => {
+      if (!el.parent) {
+        sorting(el);
+      } else {
+        sorting(el);
       }
 
       setDB("sidebar", el.id, el);
     });
 
-    // console.log(dragSidebarSourser.item);
-    // console.log(dragSidebarTarget.item);
-
-    // if (dragSidebarSourser.item.parent) {
-    //   console.log("Sourser parent");
-    // }
-    // if (dragSidebarTarget.item.parent) {
-    //   console.log("Target parent");
-    // }
-
     setSidebarList(newList);
+    console.log(newList);
   }
   //dragSidebar
 

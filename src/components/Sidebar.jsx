@@ -60,7 +60,7 @@ function Sidebar({
         }}
         onDragEnd={(e) => {
           e.stopPropagation();
-          dragSidebar();
+          dragSidebar(e.target);
         }}
         // drag
 
@@ -95,7 +95,7 @@ function Sidebar({
   ) : (
     <>
       {menu}
-      <nav className={classNames({ fixed: fixBar })}>
+      <nav className={classNames("fixed", { fixed: fixBar })}>
         <div className="tools">
           <button
             className={classNames("fixed", { active: fixBar })}
@@ -131,7 +131,9 @@ function Sidebar({
                     onDragLeave={(e) => {
                       dragSidebarLeave(e.target, el);
                     }}
-                    onDragEnd={dragSidebar}
+                    onDragEnd={(e) => {
+                      dragSidebar(e.target);
+                    }}
                     // drag
                     onContextMenu={(e) => {
                       // e.preventDefault();

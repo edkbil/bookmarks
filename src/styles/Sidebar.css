@@ -113,6 +113,17 @@ nav li span{
     font-size: 13px;
     pointer-events: none;
 }
+nav li.offChild ul{
+    position: relative;
+}
+nav li.offChild ul:before{
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+}
 article, article:after, nav, nav *{
     -webkit-transition: all 600ms ease;
     -moz-transition: all 600ms ease;
