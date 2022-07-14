@@ -12,6 +12,7 @@ function Sidebar({
   dragSidebarEnter,
   dragSidebarLeave,
   dragSidebar,
+  onCreate,
 }) {
   const [fixBar, setFixBar] = useState(false);
   const tooglefixBar = () => setFixBar(!fixBar);
@@ -40,6 +41,7 @@ function Sidebar({
     );
   }
 
+  const [externalUrl, setExternalUrl] = useState(true);
   function listItem(el) {
     return (
       <li
@@ -49,6 +51,7 @@ function Sidebar({
         onDragStart={(e) => {
           e.stopPropagation();
           dragSidebarStart(e.target, el);
+          setExternalUrl(false);
         }}
         onDragEnter={(e) => {
           e.stopPropagation();
@@ -61,6 +64,29 @@ function Sidebar({
         onDragEnd={(e) => {
           e.stopPropagation();
           dragSidebar(e.target);
+          setExternalUrl(true);
+        }}
+        onDragOver={(e) => {
+          e.preventDefault();
+        }}
+        onDrop={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+
+          if (externalUrl) {
+            const url = e.dataTransfer.getData("url");
+            const urlArr = url.split("/");
+            const title = urlArr[2];
+            // dragSidebar(e.target, {
+            onCreate(
+              {
+                title,
+                href: url,
+              },
+              "sidebar"
+            );
+            setExternalUrl(true);
+          }
         }}
         // drag
 
@@ -124,6 +150,7 @@ function Sidebar({
                     // drag
                     onDragStart={(e) => {
                       dragSidebarStart(e.target, el);
+                      setExternalUrl(false);
                     }}
                     onDragEnter={(e) => {
                       dragSidebarEnter(e.target, el);
@@ -133,6 +160,29 @@ function Sidebar({
                     }}
                     onDragEnd={(e) => {
                       dragSidebar(e.target);
+                      setExternalUrl(true);
+                    }}
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                    }}
+                    onDrop={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+
+                      if (externalUrl) {
+                        const url = e.dataTransfer.getData("url");
+                        const urlArr = url.split("/");
+                        const title = urlArr[2];
+                        const order = e.target.index(this);
+                        onCreate(
+                          {
+                            title,
+                            href: url,
+                          },
+                          "sidebar"
+                        );
+                        setExternalUrl(true);
+                      }
                     }}
                     // drag
                     onContextMenu={(e) => {

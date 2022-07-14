@@ -327,6 +327,7 @@ function App() {
         dragSidebarEnter={handleDragSidebarEnter}
         dragSidebarLeave={handleDragSidebarLeave}
         dragSidebar={handleDragSidebar}
+        onCreate={handleCreate}
       />
       <List
         list={list}
