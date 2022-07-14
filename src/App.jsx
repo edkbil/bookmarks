@@ -1,6 +1,6 @@
 import "./styles/Sidebar.css";
 import "./styles/App.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import List from "./components/List";
 import Sidebar from "./components/Sidebar";
 import Form from "./components/Form";
@@ -8,12 +8,16 @@ import Form from "./components/Form";
 import bdList from "./db.json";
 import { getDB, setDB, removeDbList, clearDB } from "./IndexedDb.js";
 
+// import useEvent from "@react-hook/event";
+
 function App() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [list, setList] = useState();
   const [sidebarList, setSidebarList] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
   const [isLoadedSidebar, setIsLoadedSidebar] = useState(false);
+
+  // useEvent(document, "drag", (event) => console.log(event));
 
   useEffect(() => {
     getDB("list").then((res) => {
@@ -242,6 +246,14 @@ function App() {
   const [dragSidebarSourser, setDragSidebarSourser] = useState({});
   const [dragSidebarTarget, setDragSidebarTarget] = useState({});
 
+  const [parseUrl, setParseUrl] = useState(false);
+  const [parseUrlGetter, setParseUrlGetter] = useState(false);
+  const [parseUrlShow, setParseUrlShow] = useState(false);
+
+  function handleDoParseUrl(state) {
+    setParseUrl(state);
+  }
+
   function handleDragSidebarStart(el, item) {
     el.style.opacity = "0.4";
 
@@ -253,15 +265,38 @@ function App() {
       el,
       item,
     });
+
+    if (!parseUrl) {
+      setParseUrlGetter(true);
+    } else {
+      setParseUrlGetter(false);
+    }
   }
 
-  function handleDragSidebarEnter(el, item) {
+  // function handleDragDropEvent(oEvent) {
+  //   switch (oEvent.type) {
+  //     case "dragover":
+  //     case "dragenter":
+  //       oEvent.returnValue = false;
+  //       break;
+  //     case "drop":
+  //       alert(oEvent.dataTransfer.getData("URL"));
+  //   }
+  // }
+
+  function handleDragSidebarEnter(el, item, asd) {
     el.style.borderTop = "1px solid #3f8efc";
+
+    // let data = e.dataTransfer.getData("text/html");
+    // console.log(data);
 
     setDragSidebarTarget({
       el,
       item,
     });
+
+    // console.log(parseUrl);
+    console.log(asd);
   }
 
   function handleDragSidebarLeave(el) {
@@ -269,49 +304,45 @@ function App() {
   }
 
   async function handleDragSidebar(htmlItem) {
-    if (htmlItem.tagName.toLowerCase() == "li") {
-      htmlItem.classList.remove("offChild");
-    }
-
-    dragSidebarSourser.el.style.opacity = "1";
-
-    let newList = [...sidebarList];
-
-    let oldOrder = dragSidebarSourser.item.order;
-    let oldId = dragSidebarSourser.item.id;
-    let newOrder = dragSidebarTarget.item.order;
-
-    await clearDB("sidebar");
-
-    if (dragSidebarSourser.item.parent && !dragSidebarTarget.item.parent) {
-      delete dragSidebarSourser.item.parent;
-    }
-    if (dragSidebarTarget.item.parent && !dragSidebarSourser.item.parent) {
-      dragSidebarSourser.item.parent = dragSidebarTarget.item.parent;
-    }
-
-    function sorting(el) {
-      if (el.id === oldId) {
-        el.order = newOrder;
-      } else if (el.order >= newOrder && el.order <= oldOrder) {
-        el.order = el.order + 1;
-      } else if (el.order <= newOrder && el.order >= oldOrder) {
-        el.order = el.order - 1;
-      }
-    }
-
-    newList.map((el) => {
-      if (!el.parent) {
-        sorting(el);
-      } else {
-        sorting(el);
-      }
-
-      setDB("sidebar", el.id, el);
-    });
-
-    setSidebarList(newList);
-    console.log(newList);
+    // if (htmlItem.tagName.toLowerCase() == "li") {
+    //   htmlItem.classList.remove("offChild");
+    // }
+    // dragSidebarSourser.el.style.opacity = "1";
+    // let newList = [...sidebarList];
+    // let oldOrder = dragSidebarSourser.item.order;
+    // let oldId = dragSidebarSourser.item.id;
+    // let newOrder = dragSidebarTarget.item.order;
+    // await clearDB("sidebar");
+    // if (dragSidebarSourser.item.parent && !dragSidebarTarget.item.parent) {
+    //   delete dragSidebarSourser.item.parent;
+    // }
+    // if (dragSidebarTarget.item.parent && !dragSidebarSourser.item.parent) {
+    //   dragSidebarSourser.item.parent = dragSidebarTarget.item.parent;
+    // }
+    // function sorting(el) {
+    //   if (el.id === oldId) {
+    //     el.order = newOrder;
+    //   } else if (el.order >= newOrder && el.order <= oldOrder) {
+    //     el.order = el.order + 1;
+    //   } else if (el.order <= newOrder && el.order >= oldOrder) {
+    //     el.order = el.order - 1;
+    //   }
+    // }
+    // newList.map((el) => {
+    //   if (!el.parent) {
+    //     sorting(el);
+    //   } else {
+    //     sorting(el);
+    //   }
+    //   setDB("sidebar", el.id, el);
+    // });
+    // setSidebarList(newList);
+    // if (!parseUrlGetter) {
+    //   setParseUrlGetter(true);
+    // }
+    // if (parseUrlGetter) {
+    //   setParseUrlShow(true);
+    // }
   }
   //dragSidebar
 
@@ -327,7 +358,17 @@ function App() {
         dragSidebarEnter={handleDragSidebarEnter}
         dragSidebarLeave={handleDragSidebarLeave}
         dragSidebar={handleDragSidebar}
+        parseUrlState={parseUrl}
+        doParseUrl={handleDoParseUrl}
       />
+      {parseUrlShow && (
+        <textarea
+          onChange={(e) => {
+            e.preventDefault();
+            console.log(e.target.value);
+          }}
+        ></textarea>
+      )}
       <List
         list={list}
         isLoaded={isLoaded}

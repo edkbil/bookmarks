@@ -2,6 +2,13 @@ import { useState } from "react";
 import classNames from "classnames";
 import folderImg from "../img/folder.png";
 
+import {
+  preventDefault /*, persist, stopPropagation */,
+} from "react-event-utils";
+
+// import useEvent from "@react-hook/event";
+// import { htmlDirContent } from "html-dir-content";
+
 function Sidebar({
   sidebarList,
   isLoadedSidebar,
@@ -12,7 +19,17 @@ function Sidebar({
   dragSidebarEnter,
   dragSidebarLeave,
   dragSidebar,
+  doParseUrl,
 }) {
+  // useEvent(document, "drop", (event) => {
+  //   event.preventDefault();
+  //   let data = event.dataTransfer.items;
+  //   // let asd = event.target.outerHTML;
+  //   // let asd = event.dataTransfer;
+  //   // console.log("df");
+  //   console.log(data);
+  // });
+
   const [fixBar, setFixBar] = useState(false);
   const tooglefixBar = () => setFixBar(!fixBar);
 
@@ -49,19 +66,40 @@ function Sidebar({
         onDragStart={(e) => {
           e.stopPropagation();
           dragSidebarStart(e.target, el);
+          doParseUrl(true);
         }}
         onDragEnter={(e) => {
           e.stopPropagation();
+
           dragSidebarEnter(e.target, el);
+          preventDefault((e) => {
+            console.log(e.target.title.value);
+          });
         }}
         onDragLeave={(e) => {
           e.stopPropagation();
           dragSidebarLeave(e.target, el);
         }}
         onDragEnd={(e) => {
+          e.preventDefault();
           e.stopPropagation();
-          dragSidebar(e.target);
+          // dragSidebar(e.target);
+          // doParseUrl(false);
+
+          EventUtil.addHandler(dm, "dragend", function (e) {
+            var target = EventUtil.getCurrentTarget(e);
+            console.log(target);
+            target.style.backgroundColor = "";
+            target.style.cursor = "default"; // Reset cursor
+            return true;
+          });
         }}
+        // onDrop={(e) => {
+        //   e.preventDefault();
+        //   // let asd = e.dataTransfer.getData("text");
+        //   // console.log(asd);
+        //   console.log("asdsad");
+        // }}
         // drag
 
         onContextMenu={(e) => {
@@ -124,6 +162,7 @@ function Sidebar({
                     // drag
                     onDragStart={(e) => {
                       dragSidebarStart(e.target, el);
+                      doParseUrl(true);
                     }}
                     onDragEnter={(e) => {
                       dragSidebarEnter(e.target, el);
@@ -133,6 +172,7 @@ function Sidebar({
                     }}
                     onDragEnd={(e) => {
                       dragSidebar(e.target);
+                      doParseUrl(false);
                     }}
                     // drag
                     onContextMenu={(e) => {
