@@ -268,26 +268,54 @@ function App() {
     el.style.borderTop = "none";
   }
 
-  async function handleDragSidebar(htmlItem) {
+  async function handleDragSidebar(htmlItem, addNew) {
     if (htmlItem.tagName.toLowerCase() == "li") {
       htmlItem.classList.remove("offChild");
     }
 
-    dragSidebarSourser.el.style.opacity = "1";
+    !addNew && (dragSidebarSourser.el.style.opacity = "1");
 
-    let newList = [...sidebarList];
+    let newList = [];
 
-    let oldOrder = dragSidebarSourser.item.order;
-    let oldId = dragSidebarSourser.item.id;
+    if (addNew) {
+      handleCreate(addNew, "sidebar");
+    } else {
+      newList = [...sidebarList];
+    }
+
+    let newElement = {};
+    let oldOrder = "";
+    let oldId = "";
+
+    if (addNew) {
+      await getDB("sidebar").then((res) => {
+        newList = res;
+        newElement = res[res.length - 1];
+        oldOrder = newElement.order;
+        oldId = newElement.id;
+      });
+    } else {
+      oldOrder = dragSidebarSourser.item.order;
+      oldId = dragSidebarSourser.item.id;
+    }
+
+    console.log(newList);
+
     let newOrder = dragSidebarTarget.item.order;
 
     await clearDB("sidebar");
 
-    if (dragSidebarSourser.item.parent && !dragSidebarTarget.item.parent) {
-      delete dragSidebarSourser.item.parent;
-    }
-    if (dragSidebarTarget.item.parent && !dragSidebarSourser.item.parent) {
-      dragSidebarSourser.item.parent = dragSidebarTarget.item.parent;
+    if (addNew) {
+      if (dragSidebarTarget.item.parent) {
+        newElement.parent = dragSidebarTarget.item.parent;
+      }
+    } else {
+      if (dragSidebarSourser.item.parent && !dragSidebarTarget.item.parent) {
+        delete dragSidebarSourser.item.parent;
+      }
+      if (dragSidebarTarget.item.parent && !dragSidebarSourser.item.parent) {
+        dragSidebarSourser.item.parent = dragSidebarTarget.item.parent;
+      }
     }
 
     function sorting(el) {
@@ -327,7 +355,6 @@ function App() {
         dragSidebarEnter={handleDragSidebarEnter}
         dragSidebarLeave={handleDragSidebarLeave}
         dragSidebar={handleDragSidebar}
-        onCreate={handleCreate}
       />
       <List
         list={list}

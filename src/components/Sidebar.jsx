@@ -12,7 +12,6 @@ function Sidebar({
   dragSidebarEnter,
   dragSidebarLeave,
   dragSidebar,
-  onCreate,
 }) {
   const [fixBar, setFixBar] = useState(false);
   const tooglefixBar = () => setFixBar(!fixBar);
@@ -77,14 +76,7 @@ function Sidebar({
             const url = e.dataTransfer.getData("url");
             const urlArr = url.split("/");
             const title = urlArr[2];
-            // dragSidebar(e.target, {
-            onCreate(
-              {
-                title,
-                href: url,
-              },
-              "sidebar"
-            );
+            dragSidebar(e.target, { title, href: url });
             setExternalUrl(true);
           }
         }}
@@ -173,14 +165,7 @@ function Sidebar({
                         const url = e.dataTransfer.getData("url");
                         const urlArr = url.split("/");
                         const title = urlArr[2];
-                        const order = e.target.index(this);
-                        onCreate(
-                          {
-                            title,
-                            href: url,
-                          },
-                          "sidebar"
-                        );
+                        dragSidebar(e.target, { title, href: url });
                         setExternalUrl(true);
                       }
                     }}
