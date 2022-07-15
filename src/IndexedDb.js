@@ -15,8 +15,8 @@ export async function setDB(store, key, val) {
   return (await dbStore).put(store, val, key);
 };
 
-export async function removeDbList(key) {
-  return (await dbStore).delete('list', key);
+export async function removeDB(store, key) {
+  return (await dbStore).delete(store, key);
 };
 
 export async function clearDB(store) {

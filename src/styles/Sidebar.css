@@ -41,6 +41,13 @@ nav{
     overflow-x: hidden;
     overflow-y: auto;
 }
+nav::before{
+    position: absolute;
+    content: ' ';
+    width: 20px;
+    height: 100%;
+    right: 0px;
+}
 nav:after{
     position: absolute;
     content: ' ';

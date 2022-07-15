@@ -6,7 +6,7 @@ import Sidebar from "./components/Sidebar";
 import Form from "./components/Form";
 
 import bdList from "./db.json";
-import { getDB, setDB, removeDbList, clearDB } from "./IndexedDb.js";
+import { getDB, setDB, removeDB, clearDB } from "./IndexedDb.js";
 
 function App() {
   const [showAddForm, setShowAddForm] = useState(false);
@@ -62,7 +62,10 @@ function App() {
       const orderList = sidebarList.map((listItem) => parseInt(listItem.order));
       const orderMax = Math.max(...orderList) + 1;
 
-      const newItem = { ...formValues, id, order: orderMax };
+      let newItem = { ...formValues, id, order: orderMax };
+      if (!formValues.href) {
+        newItem = { ...newItem, folder: true };
+      }
       const newList = [...sidebarList];
       newList.push(newItem);
 
@@ -74,15 +77,47 @@ function App() {
     setShowAddForm(false);
   }
 
-  function handleRemove(item) {
+  function handleRemove(item, mode) {
     const confirmItemRemove = window.confirm("Точно видалити?");
-    if (confirmItemRemove) {
-      let newList = [...list];
-      newList = newList.filter((listItem) => listItem.id !== item.id);
 
-      removeDbList(item.id).then(() => {
-        setList(newList);
-      });
+    if (confirmItemRemove) {
+      if (mode != "sidebar") {
+        let newList = [...list];
+        newList = newList.filter((listItem) => listItem.id !== item.id);
+
+        removeDB("list", item.id).then(() => {
+          setList(newList);
+        });
+      } else {
+        if (item.folder) {
+          let newList = [...sidebarList];
+          const folderInclude = newList.filter(
+            (listItem) => listItem.parent === item.id
+          );
+          if (folderInclude.length == 0) {
+            newList = newList.filter((listItem) => listItem.id !== item.id);
+            removeDB("sidebar", item.id).then(() => {
+              setSidebarList(newList);
+            });
+          } else {
+            const toDel = new Set(folderInclude);
+            newList = newList.filter((listItem) => !toDel.has(listItem));
+            newList = newList.filter((listItem) => listItem.id !== item.id);
+            removeDB("sidebar", item.id).then(() => {
+              folderInclude.forEach((el) => {
+                removeDB("sidebar", el.id).then(() => {});
+              });
+              setSidebarList(newList);
+            });
+          }
+        } else {
+          let newList = [...sidebarList];
+          newList = newList.filter((listItem) => listItem.id !== item.id);
+          removeDB("sidebar", item.id).then(() => {
+            setSidebarList(newList);
+          });
+        }
+      }
     }
   }
 
@@ -159,7 +194,7 @@ function App() {
   }
   function runEditFrom(el, mode) {
     setEditing(true);
-    if (!mode == "sidebar") {
+    if (mode != "sidebar") {
       setEditingSidebar(false);
     } else {
       setEditingSidebar(true);
@@ -355,6 +390,7 @@ function App() {
         dragSidebarEnter={handleDragSidebarEnter}
         dragSidebarLeave={handleDragSidebarLeave}
         dragSidebar={handleDragSidebar}
+        doRemove={handleRemove}
       />
       <List
         list={list}

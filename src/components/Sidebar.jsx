@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import classNames from "classnames";
 import folderImg from "../img/folder.png";
 
@@ -12,11 +12,21 @@ function Sidebar({
   dragSidebarEnter,
   dragSidebarLeave,
   dragSidebar,
+  doRemove,
 }) {
   const [fixBar, setFixBar] = useState(false);
   const tooglefixBar = () => setFixBar(!fixBar);
 
   const [menu, setMenu] = useState();
+
+  useEffect(() => {
+    document.body.addEventListener("click", closeSidebarMenu);
+  }, []);
+
+  function closeSidebarMenu() {
+    setMenu();
+  }
+
   function contextMenu(listOptions, listItem) {
     const x = listOptions.clientX;
     const y = listOptions.clientY;
@@ -28,14 +38,25 @@ function Sidebar({
         style={{ left: x + "px", top: y + "px" }}
       >
         <button
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
             editFrom(listItem, "sidebar");
             setMenu();
           }}
         >
           Змінити
         </button>
-        <button>Видалити</button>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            doRemove(listItem, "sidebar");
+            setMenu();
+          }}
+        >
+          Видалити
+        </button>
       </div>
     );
   }
@@ -84,6 +105,7 @@ function Sidebar({
 
         onContextMenu={(e) => {
           e.preventDefault();
+          e.stopPropagation();
           contextMenu(e, el);
         }}
       >
@@ -113,7 +135,12 @@ function Sidebar({
   ) : (
     <>
       {menu}
-      <nav className={classNames("fixed", { fixed: fixBar })}>
+      <nav
+        className={classNames({ fixed: fixBar })}
+        onDragEnter={() => {
+          !fixBar && tooglefixBar();
+        }}
+      >
         <div className="tools">
           <button
             className={classNames("fixed", { active: fixBar })}
@@ -171,7 +198,8 @@ function Sidebar({
                     }}
                     // drag
                     onContextMenu={(e) => {
-                      // e.preventDefault();
+                      e.preventDefault();
+                      e.stopPropagation();
                       contextMenu(e, el);
                     }}
                   >
