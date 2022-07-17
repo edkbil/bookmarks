@@ -13,6 +13,7 @@ function Sidebar({
   dragSidebarLeave,
   dragSidebar,
   doRemove,
+  searchRun,
 }) {
   const [fixBar, setFixBar] = useState(false);
   const tooglefixBar = () => setFixBar(!fixBar);
@@ -136,7 +137,7 @@ function Sidebar({
     <>
       {menu}
       <nav
-        className={classNames({ fixed: fixBar })}
+        className={classNames({ fixed: fixBar }, { fixed: searchRun })}
         onDragEnter={() => {
           !fixBar && tooglefixBar();
         }}

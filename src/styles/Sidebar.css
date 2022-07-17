@@ -38,8 +38,6 @@ nav{
     z-index: 1;
     cursor: pointer;
     width: 330px;
-    overflow-x: hidden;
-    overflow-y: auto;
 }
 nav::before{
     position: absolute;
@@ -140,6 +138,8 @@ article, article:after, nav, nav *{
 }
 nav:hover{
     left: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 nav:hover ~ article{
     -webkit-transform: translateX(16em) perspective(600px) rotateY(10deg);
@@ -153,6 +153,11 @@ nav:hover ~ article:after{
 }
 nav.fixed{
     left: 0;
+}
+nav.fixed{
+    left: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 nav.fixed ~ article{
     -webkit-transform: translateX(16em) perspective(600px) rotateY(10deg);

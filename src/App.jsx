@@ -1,6 +1,8 @@
+import "./styles/Search.css";
 import "./styles/Sidebar.css";
 import "./styles/App.css";
 import { useState, useEffect } from "react";
+import Search from "./components/Search";
 import List from "./components/List";
 import Sidebar from "./components/Sidebar";
 import Form from "./components/Form";
@@ -15,6 +17,7 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isLoadedSidebar, setIsLoadedSidebar] = useState(false);
 
+  const [searchForm, setSearchForm] = useState(false);
   useEffect(() => {
     getDB("list").then((res) => {
       setIsLoaded(true);
@@ -41,7 +44,38 @@ function App() {
         setSidebarList(res);
       }
     });
+    document.body.addEventListener("keydown", sideSearch);
   }, []);
+
+  function sideSearch(e) {
+    if (!showAddForm) {
+      if (
+        (e.keyCode >= 48 && e.keyCode <= 57) ||
+        (e.keyCode >= 65 && e.keyCode <= 90)
+      ) {
+        setSearchForm(true);
+      }
+      if (e.keyCode == 27) {
+        setSearchForm(false);
+      }
+    }
+  }
+
+  async function serchSort(serchText) {
+    let oldList = [];
+    await getDB("sidebar").then((res) => {
+      oldList = res;
+    });
+
+    if (serchText != "") {
+      let newList = oldList.filter((listItem) =>
+        listItem.title.toLowerCase().includes(serchText)
+      );
+      setSidebarList(newList);
+    } else {
+      setSidebarList(oldList);
+    }
+  }
 
   async function handleCreate(formValues, mode) {
     let id = new Date();
@@ -380,6 +414,7 @@ function App() {
 
   return (
     <div>
+      {searchForm && <Search serchText={serchSort} />}
       <Sidebar
         sidebarList={sidebarList}
         isLoadedSidebar={isLoadedSidebar}
@@ -391,6 +426,7 @@ function App() {
         dragSidebarLeave={handleDragSidebarLeave}
         dragSidebar={handleDragSidebar}
         doRemove={handleRemove}
+        searchRun={searchForm}
       />
       <List
         list={list}
