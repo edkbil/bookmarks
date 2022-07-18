@@ -337,7 +337,7 @@ function App() {
     el.style.borderTop = "none";
   }
 
-  async function handleDragSidebar(htmlItem, addNew) {
+  async function handleDragSidebar(htmlItem, addNew, moveToFolder = false) {
     if (htmlItem.tagName.toLowerCase() == "li") {
       htmlItem.classList.remove("offChild");
     }
@@ -368,8 +368,6 @@ function App() {
       oldId = dragSidebarSourser.item.id;
     }
 
-    console.log(newList);
-
     let newOrder = dragSidebarTarget.item.order;
 
     await clearDB("sidebar");
@@ -385,20 +383,30 @@ function App() {
       if (dragSidebarTarget.item.parent && !dragSidebarSourser.item.parent) {
         dragSidebarSourser.item.parent = dragSidebarTarget.item.parent;
       }
+      if (moveToFolder) {
+        dragSidebarSourser.item.parent = dragSidebarTarget.item.id;
+        dragSidebarSourser.item.order = 0;
+      }
     }
 
     function sorting(el) {
-      if (el.id === oldId) {
-        el.order = newOrder;
-      } else if (el.order >= newOrder && el.order <= oldOrder) {
-        el.order = el.order + 1;
-      } else if (el.order <= newOrder && el.order >= oldOrder) {
-        el.order = el.order - 1;
+      if (!moveToFolder) {
+        if (el.id === oldId) {
+          el.order = newOrder;
+        } else if (el.order >= newOrder && el.order <= oldOrder) {
+          el.order = el.order + 1;
+        } else if (el.order <= newOrder && el.order >= oldOrder) {
+          el.order = el.order - 1;
+        }
+      } else {
+        if (el.parent === dragSidebarTarget.item.id) {
+          el.order = el.order + 1;
+        }
       }
     }
 
     newList.map((el) => {
-      if (!el.parent) {
+      if (!el.parent && moveToFolder) {
         sorting(el);
       } else {
         sorting(el);

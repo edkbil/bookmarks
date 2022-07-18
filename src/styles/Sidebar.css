@@ -71,6 +71,9 @@ nav li{
     transition: 0.1s;
     padding: 0 20px 0 20px;
 }
+nav li.folderHover{
+    background: #000;
+}
 nav>li:nth-child(2){
     padding-top: 20px;
 }

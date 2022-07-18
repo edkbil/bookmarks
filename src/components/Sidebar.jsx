@@ -84,8 +84,7 @@ function Sidebar({
         }}
         onDragEnd={(e) => {
           e.stopPropagation();
-          dragSidebar(e.target);
-          setExternalUrl(true);
+          !moveToFolder && dragSidebar(e.target);
         }}
         onDragOver={(e) => {
           e.preventDefault();
@@ -124,6 +123,8 @@ function Sidebar({
     );
   }
 
+  const [moveToFolder, setMoveToFolder] = useState(false);
+
   function subList(parentId) {
     let list = [...sidebarList];
     list = list.filter((listItem) => listItem.parent == parentId);
@@ -137,7 +138,8 @@ function Sidebar({
     <>
       {menu}
       <nav
-        className={classNames({ fixed: fixBar }, { fixed: searchRun })}
+        // className={classNames({ fixed: fixBar }, { fixed: searchRun })}
+        className={classNames("fixed", { fixed: searchRun })}
         onDragEnter={() => {
           !fixBar && tooglefixBar();
         }}
@@ -164,7 +166,7 @@ function Sidebar({
                   !el.parent && listItem(el)
                 ) : (
                   <li
-                    className={el.open ? "folder open" : "folder"}
+                    className={classNames("folder", { open: el.open })}
                     key={el.id}
                     draggable="true"
                     // drag
@@ -174,9 +176,13 @@ function Sidebar({
                     }}
                     onDragEnter={(e) => {
                       dragSidebarEnter(e.target, el);
+                      e.target.style.background = "#3f8efc87";
+                      setMoveToFolder(true);
                     }}
                     onDragLeave={(e) => {
                       dragSidebarLeave(e.target, el);
+                      e.target.style.background = "transparent";
+                      setMoveToFolder(false);
                     }}
                     onDragEnd={(e) => {
                       dragSidebar(e.target);
@@ -195,6 +201,9 @@ function Sidebar({
                         const title = urlArr[2];
                         dragSidebar(e.target, { title, href: url });
                         setExternalUrl(true);
+                      }
+                      if (moveToFolder) {
+                        dragSidebar(e.target, false, true);
                       }
                     }}
                     // drag
