@@ -138,8 +138,7 @@ function Sidebar({
     <>
       {menu}
       <nav
-        // className={classNames({ fixed: fixBar }, { fixed: searchRun })}
-        className={classNames("fixed", { fixed: searchRun })}
+        className={classNames({ fixed: fixBar }, { fixed: searchRun })}
         onDragEnter={() => {
           !fixBar && tooglefixBar();
         }}

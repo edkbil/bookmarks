@@ -6,6 +6,7 @@ import Search from "./components/Search";
 import List from "./components/List";
 import Sidebar from "./components/Sidebar";
 import Form from "./components/Form";
+import Fuse from "fuse.js";
 
 import bdList from "./db.json";
 import { getDB, setDB, removeDB, clearDB } from "./IndexedDb.js";
@@ -61,16 +62,24 @@ function App() {
     }
   }
 
+  const optionsFormSearch = {
+    keys: ["title"],
+  };
   async function serchSort(serchText) {
     let oldList = [];
     await getDB("sidebar").then((res) => {
       oldList = res;
     });
 
+    const newList = [];
+    const fuse = new Fuse(oldList, optionsFormSearch);
+    const result = fuse.search(serchText);
+
     if (serchText != "") {
-      let newList = oldList.filter((listItem) =>
-        listItem.title.toLowerCase().includes(serchText)
-      );
+      result.map((el) => {
+        delete el.item.parent;
+        newList.push(el.item);
+      });
       setSidebarList(newList);
     } else {
       setSidebarList(oldList);
