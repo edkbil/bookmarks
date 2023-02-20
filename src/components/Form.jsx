@@ -1,15 +1,27 @@
 import { useState, useRef } from "react";
 import { HexColorPicker } from "react-colorful";
+
+import {
+  createInList,
+  createInSidebarList,
+  editInListForm,
+  editInSidebarListForm,
+} from "../functions/form";
+
 import closeImg from "../img/close2.png";
 
 function Form({
-  onCreate,
+  list,
+  changeShowAddForm,
   onClose,
   editing,
-  onEdit,
   selectedItem,
   editingSidebar,
+  runToogleAddForm,
 }) {
+  console.log("editing " + editing);
+  console.log("editingSidebar " + editingSidebar);
+
   const [href, setHref] = useState(!editing ? "" : selectedItem.href);
   const [title, setTitle] = useState(!editing ? "" : selectedItem.title);
   const [color, setColor] = useState(!editing ? "#aabbcc" : selectedItem.color);
@@ -17,8 +29,28 @@ function Form({
 
   const inputEl = useRef(null);
   const onButtonClick = () => {
-    // `current` указывает на смонтированный элемент `input`
+    // `current` вказує на змонтований елемент `input`
     inputEl.current.click();
+  };
+
+  const handleCreate = async (formValues, mode) => {
+    mode
+      ? list.updateSidebarList(
+          await createInSidebarList(list.sidebarList, formValues)
+        )
+      : list.updateList(await createInList(list.list, formValues));
+
+    changeShowAddForm(false);
+  };
+
+  const handleEditForm = async (formValues, mode) => {
+    mode
+      ? list.updateSidebarList(
+          await editInSidebarListForm(list.sidebarList, formValues)
+        )
+      : list.updateList(await editInListForm(list.list, formValues));
+
+    runToogleAddForm();
   };
 
   return (
@@ -30,14 +62,14 @@ function Form({
 
             if (!editing) {
               !editingSidebar
-                ? onCreate({ href, title, color, icon: file })
-                : onCreate({ href, title, icon: "" }, "sidebar");
+                ? handleCreate({ href, title, color, icon: file })
+                : handleCreate({ href, title, icon: "" }, "sidebar");
 
               setHref("");
               setTitle("");
             } else {
               !editingSidebar
-                ? onEdit({
+                ? handleEditForm({
                     href,
                     title,
                     color,
@@ -45,7 +77,7 @@ function Form({
                     order: selectedItem.order,
                     id: selectedItem.id,
                   })
-                : onEdit(
+                : handleEditForm(
                     {
                       href,
                       title,

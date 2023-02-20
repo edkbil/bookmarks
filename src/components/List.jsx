@@ -1,27 +1,60 @@
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
 import classNames from "classnames";
+
+import Tile from "./Tile";
+import EditModeTpl from "./EditModeTpl";
+
+import bdList from "../DB/db.json";
+import { getDB, setDB, removeDB } from "../DB/IndexedDb";
+
 import addImg from "../img/add.png";
 
-function List({
-  list,
-  isLoaded,
-  onRemove,
-  dragStart,
-  dragEnter,
-  dragLeave,
-  drag,
-  viewAddForm,
-  editFrom,
-  backupBtn,
-  importBtn,
-}) {
+import {
+  handleDragStart,
+  handleDragEnter,
+  handleDragLeave,
+  handleDrag,
+} from "../functions/dragAndDrop";
+
+function List({ list, viewAddForm, editFrom, backupBtn, importBtn }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  useEffect(() => {
+    getDB("list").then((res) => {
+      setIsLoaded(true);
+      if (res.length == 0) {
+        let addToList = bdList.appData.list;
+        addToList.map((e) => {
+          setDB("list", e.id, e);
+        });
+        list.updateList(addToList);
+      } else {
+        list.updateList(res);
+      }
+    });
+  }, []);
+
   const [editMode, setEditMode] = useState(false);
   const toogleEditMode = () => setEditMode(!editMode);
-  const [backup, setBackup] = useState("");
 
-  const inputEl = useRef(null);
-  const onButtonClick = () => {
-    inputEl.current.click();
+  function onRemove(item) {
+    const confirmItemRemove = window.confirm("Точно видалити?");
+
+    if (confirmItemRemove) {
+      let newList = [...list.list];
+      newList = newList.filter((listItem) => listItem.id !== item.id);
+
+      removeDB("list", item.id).then(() => {
+        list.updateList(newList);
+      });
+    }
+  }
+
+  const dragStart = (el, item) => handleDragStart(el, item);
+  const dragEnter = (el, item) => handleDragEnter(el, item);
+  const dragLeave = (el) => handleDragLeave(el);
+  const drag = async () => {
+    const draggedList = await handleDrag(list.list);
+    list.updateList(draggedList);
   };
 
   return !isLoaded ? (
@@ -29,117 +62,29 @@ function List({
   ) : (
     <article>
       <div className={classNames("list", { editing: editMode })}>
-        {list
+        {list.list
           .sort((a, b) => a.order - b.order)
           .map((el) => {
             return (
-              <div
-                className="item"
+              <Tile
+                item={el}
                 key={el.id}
-                draggable={editMode ? true : false}
-                style={{ background: el.color }}
-                // drag
-                onDragStart={(e) => {
-                  dragStart(e.target, el);
-                }}
-                onDragEnter={(e) => {
-                  dragEnter(e.target, el);
-                }}
-                onDragLeave={(e) => {
-                  dragLeave(e.target, el);
-                }}
-                onDragEnd={drag}
-                // drag
-              >
-                <a href={el.href}>
-                  <div className="icon">
-                    <img src={el.icon} alt="icon" />
-                  </div>
-                  <span>{el.title}</span>
-                </a>
-                {editMode && (
-                  <>
-                    <button
-                      className="close"
-                      onClick={() => {
-                        onRemove(el, el.icon);
-                        // доступ до елемента
-                        // кожерынг
-                        // калбеки
-                      }}
-                    ></button>
-                    <button
-                      className="settings"
-                      onClick={() => {
-                        editFrom(el);
-                      }}
-                    ></button>
-                    <div className="move"></div>
-                  </>
-                )}
-              </div>
+                runOnRemove={onRemove}
+                runEditFrom={editFrom}
+                ifEditMode={editMode}
+                dragSet={{ dragStart, dragEnter, dragLeave, drag }}
+              />
             );
           })}
         <div className="item item-new" onClick={viewAddForm}>
           <img src={addImg} alt="add" />
         </div>
       </div>
-      <div className="edit-mode">
-        {editMode && (
-          <>
-            <div className="importFile">
-              <input
-                type="file"
-                ref={inputEl}
-                name="file"
-                accept=".json"
-                style={{ display: "none" }}
-                onChange={(event) => {
-                  importBtn(event);
-                }}
-              />
-              <button className="btn importBtn" onClick={onButtonClick}>
-                Імпортувати данні
-              </button>
-            </div>
-            <button
-              className="btn backupBtn"
-              onClick={() => {
-                const backupData = backupBtn();
-
-                const date = new Date();
-                const day = date.toLocaleDateString();
-                const time = date.toLocaleTimeString().slice(0, -3);
-
-                const fileName =
-                  "bookmarksBackup-" + day + "-" + time + ".json";
-                setBackup(
-                  <a
-                    className="backupLink"
-                    onClick={() => {
-                      setBackup("");
-                    }}
-                    href={"data:" + backupData}
-                    download={fileName}
-                  >
-                    Скачати
-                  </a>
-                );
-              }}
-            >
-              Зробити рез. копію
-            </button>
-          </>
-        )}
-        {backup}
-        <button
-          className={classNames("edit-btn", { active: editMode })}
-          type="button"
-          onClick={toogleEditMode}
-        >
-          Режим редагування
-        </button>
-      </div>
+      <EditModeTpl
+        importBtn={importBtn}
+        backupBtn={backupBtn}
+        runEditMode={toogleEditMode}
+      />
     </article>
   );
 }

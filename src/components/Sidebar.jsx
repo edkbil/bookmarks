@@ -1,136 +1,101 @@
+import "../styles/Sidebar.css";
+
 import { useState, useEffect } from "react";
 import classNames from "classnames";
-import folderImg from "../img/folder.png";
 
-function Sidebar({
-  sidebarList,
-  isLoadedSidebar,
-  folderToofler,
-  viewAddForm,
-  editFrom,
-  dragSidebarStart,
-  dragSidebarEnter,
-  dragSidebarLeave,
-  dragSidebar,
-  doRemove,
-  searchRun,
-}) {
-  const [fixBar, setFixBar] = useState(false);
-  const tooglefixBar = () => setFixBar(!fixBar);
+import SidebarTools from "./SidebarTools";
+import SidebarMenu from "./SidebarMenu";
+import Bookmark from "./Bookmark";
+import BookmarkFolder from "./BookmarkFolder";
 
-  const [menu, setMenu] = useState();
+import {
+  handleDragStart,
+  handleDragEnter,
+  handleDragLeave,
+  handleDragSidebar,
+} from "../functions/dragAndDrop";
 
+import bdList from "../DB/db.json";
+import { getDB, setDB } from "../DB/IndexedDb";
+
+import { subList, folderToofler, doRemove } from "../functions/sidebar";
+
+function Sidebar({ list, viewAddForm, editFrom, searchRun }) {
+  const [isLoadedSidebar, setIsLoadedSidebar] = useState(false);
   useEffect(() => {
+    getDB("sidebar").then((res) => {
+      setIsLoadedSidebar(true);
+      if (res.length == 0) {
+        let addToSidebar = bdList.appData.sidebar;
+        addToSidebar.map((e) => {
+          setDB("sidebar", e.id, e);
+        });
+        list.updateSidebarList(addToSidebar);
+      } else {
+        list.updateSidebarList(res);
+      }
+    });
+
     document.body.addEventListener("click", closeSidebarMenu);
   }, []);
 
-  function closeSidebarMenu() {
-    setMenu();
-  }
+  const handleDoRemove = async (item) => {
+    const confirmItemRemove = window.confirm("Точно видалити?");
+    const newList = await doRemove(list.sidebarList, confirmItemRemove, item);
+    list.updateSidebarList(newList);
+  };
 
-  function contextMenu(listOptions, listItem) {
+  const [fixBar, setFixBar] = useState(false);
+  const tooglefixBar = () => setFixBar(!fixBar);
+  const [menu, setMenu] = useState();
+
+  const closeSidebarMenu = () => {
+    setMenu();
+  };
+
+  const contextMenu = (listOptions, listItem) => {
     const x = listOptions.clientX;
     const y = listOptions.clientY;
 
     !fixBar && tooglefixBar();
     setMenu(
-      <div
-        className="sidebarItemMenu"
-        style={{ left: x + "px", top: y + "px" }}
-      >
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            editFrom(listItem, "sidebar");
-            setMenu();
-          }}
-        >
-          Змінити
-        </button>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            doRemove(listItem, "sidebar");
-            setMenu();
-          }}
-        >
-          Видалити
-        </button>
-      </div>
+      <SidebarMenu
+        listItem={listItem}
+        left={x}
+        top={y}
+        runEditFrom={editFrom}
+        runDoRemove={handleDoRemove}
+        runCloseSidebarMenu={closeSidebarMenu}
+      />
     );
-  }
+  };
 
   const [externalUrl, setExternalUrl] = useState(true);
-  function listItem(el) {
-    return (
-      <li
-        key={el.id}
-        draggable="true"
-        // drag
-        onDragStart={(e) => {
-          e.stopPropagation();
-          dragSidebarStart(e.target, el);
-          setExternalUrl(false);
-        }}
-        onDragEnter={(e) => {
-          e.stopPropagation();
-          dragSidebarEnter(e.target, el);
-        }}
-        onDragLeave={(e) => {
-          e.stopPropagation();
-          dragSidebarLeave(e.target, el);
-        }}
-        onDragEnd={(e) => {
-          e.stopPropagation();
-          !moveToFolder && dragSidebar(e.target);
-        }}
-        onDragOver={(e) => {
-          e.preventDefault();
-        }}
-        onDrop={(e) => {
-          e.stopPropagation();
-          e.preventDefault();
-
-          if (externalUrl) {
-            const url = e.dataTransfer.getData("url");
-            const urlArr = url.split("/");
-            const title = urlArr[2];
-            dragSidebar(e.target, { title, href: url });
-            setExternalUrl(true);
-          }
-        }}
-        // drag
-
-        onContextMenu={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          contextMenu(e, el);
-        }}
-      >
-        <a href={el.href}>
-          <img
-            src={
-              "https://s2.googleusercontent.com/s2/favicons?domain_url=" +
-              el.href
-            }
-            alt="ico"
-          />
-          <span>{el.title}</span>
-        </a>
-      </li>
-    );
-  }
-
   const [moveToFolder, setMoveToFolder] = useState(false);
 
-  function subList(parentId) {
-    let list = [...sidebarList];
-    list = list.filter((listItem) => listItem.parent == parentId);
-    list = list.sort((a, b) => a.order - b.order);
-    return list;
-  }
+  const changeExternalUrl = (state) => {
+    setExternalUrl(state);
+  };
+
+  //drag delegate
+  const dragStart = (el, item, sidebar) => handleDragStart(el, item, sidebar);
+  const dragEnter = (el, item, sidebar) => handleDragEnter(el, item, sidebar);
+  const dragLeave = (el, hz, sidebat) => handleDragLeave(el, hz, sidebat);
+  const drag = async (htmlItem, addNew) => {
+    const draggedList = await handleDragSidebar(
+      list.sidebarList,
+      htmlItem,
+      addNew,
+      moveToFolder
+    );
+    list.updateSidebarList(draggedList);
+  };
+  //drag delegate
+
+  const handleFolderToofler = async (folderId) => {
+    const newList = await folderToofler(list.sidebarList, folderId);
+    list.updateSidebarList(newList);
+  };
 
   return !isLoadedSidebar ? (
     <h2>Завантаження...</h2>
@@ -142,27 +107,33 @@ function Sidebar({
         onDragEnter={() => {
           !fixBar && tooglefixBar();
         }}
+        onKeyDown={() => {
+          console.log("ll");
+        }}
       >
-        <div className="tools">
-          <button
-            className={classNames("fixed", { active: fixBar })}
-            onClick={tooglefixBar}
-          ></button>
-          <button
-            className="add"
-            onClick={() => {
-              !fixBar && tooglefixBar();
-              viewAddForm("sidebar");
-            }}
-          ></button>
-        </div>
-        {sidebarList
+        <SidebarTools
+          fixBar={fixBar}
+          tooglefixBar={tooglefixBar}
+          runViewAddForm={viewAddForm}
+        />
+        {list.sidebarList
           .sort((a, b) => a.order - b.order)
           .map((el) => {
             return (
               <>
                 {!el.folder ? (
-                  !el.parent && listItem(el)
+                  !el.parent && (
+                    <Bookmark
+                      el={el}
+                      key={el.id}
+                      runContextMenu={contextMenu}
+                      dragSet={{ dragStart, dragEnter, dragLeave, drag }}
+                      //br
+                      externalUrl={externalUrl}
+                      moveToFolder={moveToFolder}
+                      runExternalUrl={changeExternalUrl}
+                    />
+                  )
                 ) : (
                   <li
                     className={classNames("folder", { open: el.open })}
@@ -170,21 +141,21 @@ function Sidebar({
                     draggable="true"
                     // drag
                     onDragStart={(e) => {
-                      dragSidebarStart(e.target, el);
+                      dragStart(e.target, el);
                       setExternalUrl(false);
                     }}
                     onDragEnter={(e) => {
-                      dragSidebarEnter(e.target, el);
+                      dragEnter(e.target, el);
                       e.target.style.background = "#3f8efc87";
                       setMoveToFolder(true);
                     }}
                     onDragLeave={(e) => {
-                      dragSidebarLeave(e.target, el);
+                      dragLeave(e.target, el);
                       e.target.style.background = "transparent";
                       setMoveToFolder(false);
                     }}
                     onDragEnd={(e) => {
-                      dragSidebar(e.target);
+                      drag(e.target);
                       setExternalUrl(true);
                     }}
                     onDragOver={(e) => {
@@ -198,11 +169,14 @@ function Sidebar({
                         const url = e.dataTransfer.getData("url");
                         const urlArr = url.split("/");
                         const title = urlArr[2];
-                        dragSidebar(e.target, { title, href: url });
+                        drag(e.target, {
+                          title,
+                          href: url,
+                        });
                         setExternalUrl(true);
                       }
                       if (moveToFolder) {
-                        dragSidebar(e.target, false, true);
+                        drag(e.target, false, true);
                       }
                     }}
                     // drag
@@ -212,21 +186,26 @@ function Sidebar({
                       contextMenu(e, el);
                     }}
                   >
-                    <p
-                      data-id={el.id}
-                      onClick={(e) => {
-                        folderToofler(parseInt(e.target.dataset.id));
-                      }}
-                      onContextMenu={(e) => {
-                        e.preventDefault();
-                        contextMenu(e, el);
-                      }}
-                    >
-                      <img src={folderImg} alt="folderImg" />
-                      <span>{el.title}</span>
-                    </p>
+                    <BookmarkFolder
+                      element={el}
+                      runFolderToofler={handleFolderToofler}
+                      runContextMenu={contextMenu}
+                    />
                     {el.open && (
-                      <ul>{subList(el.id).map((subEl) => listItem(subEl))}</ul>
+                      <ul>
+                        {subList(list.sidebarList, el.id).map((subEl) => (
+                          <Bookmark
+                            el={subEl}
+                            key={subEl.id}
+                            runContextMenu={contextMenu}
+                            dragSet={{ dragStart, dragEnter, dragLeave, drag }}
+                            //br
+                            externalUrl={externalUrl}
+                            moveToFolder={moveToFolder}
+                            runExternalUrl={changeExternalUrl}
+                          />
+                        ))}
+                      </ul>
                     )}
                   </li>
                 )}

@@ -169,6 +169,12 @@ nav.fixed ~ article{
     -o-transform: translateX(16em) perspective(600px) rotateY(10deg);
     transform: translateX(16em) perspective(600px) rotateY(10deg);
 }
+nav.fixed ~ article .list{
+    pointer-events: none;
+}
+nav.fixed ~ article .edit-mode{
+    pointer-events: none;
+}
 nav.fixed ~ article:after{
     left: 60%;
 }
