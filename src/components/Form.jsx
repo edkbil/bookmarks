@@ -19,13 +19,12 @@ function Form({
   editingSidebar,
   runToogleAddForm,
 }) {
-  console.log("editing " + editing);
-  console.log("editingSidebar " + editingSidebar);
-
   const [href, setHref] = useState(!editing ? "" : selectedItem.href);
   const [title, setTitle] = useState(!editing ? "" : selectedItem.title);
   const [color, setColor] = useState(!editing ? "#aabbcc" : selectedItem.color);
   const [file, setFile] = useState(!editing ? false : selectedItem.icon);
+
+  const [fieldImg, setFieldImg] = useState("");
 
   const inputEl = useRef(null);
   const onButtonClick = () => {
@@ -105,9 +104,17 @@ function Form({
             placeholder="Ссилка"
             type="text"
             value={href}
-            onChange={(e) => setHref(e.target.value)}
+            onChange={(e) => {
+              setHref(e.target.value);
+              if (editingSidebar) {
+                let img =
+                  "https://s2.googleusercontent.com/s2/favicons?domain_url=" +
+                  e.target.value;
+                setFieldImg(img);
+              }
+            }}
           ></input>
-          {!editingSidebar && (
+          {!editingSidebar ? (
             <>
               <HexColorPicker color={color} onChange={setColor} />
               <div className="fileWrap">
@@ -140,6 +147,8 @@ function Form({
                 ></input>
               </div>
             </>
+          ) : (
+            <img src={fieldImg} className="sidebarBookmarkIcon" alt="" />
           )}
           <button type="submit">
             {!editing ? "Додати" : "Зберегти зміни"}

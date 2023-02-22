@@ -53,12 +53,7 @@ function Bookmark({
       }}
     >
       <a href={el.href}>
-        <img
-          src={
-            "https://s2.googleusercontent.com/s2/favicons?domain_url=" + el.href
-          }
-          alt="ico"
-        />
+        <img src={el.icon} alt="ico" />
         <span>{el.title}</span>
       </a>
     </li>

@@ -107,9 +107,6 @@ function Sidebar({ list, viewAddForm, editFrom, searchRun }) {
         onDragEnter={() => {
           !fixBar && tooglefixBar();
         }}
-        onKeyDown={() => {
-          console.log("ll");
-        }}
       >
         <SidebarTools
           fixBar={fixBar}

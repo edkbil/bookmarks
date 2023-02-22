@@ -10,6 +10,26 @@ function idGenerate() {
   return id;
 }
 
+async function getFavicon(url) {
+  //https://cors-anywhere.herokuapp.com/ - temp proxy
+
+  return await fetch(
+    "https://cors-anywhere.herokuapp.com/" +
+      "https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=" +
+      url
+  )
+    .then((response) => response.blob())
+    .then(
+      (blob) =>
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+        })
+    );
+}
+
 export async function createInList(list, formValues) {
   const id = idGenerate();
   const orderList = list.map((listItem) => parseInt(listItem.order));
@@ -30,6 +50,11 @@ export async function createInSidebarList(list, formValues) {
   const id = idGenerate();
   const orderList = list.map((listItem) => parseInt(listItem.order));
   const orderMax = Math.max(...orderList) + 1;
+
+  //icon add
+  await getFavicon(formValues.href).then((dataUrl) => {
+    formValues = { ...formValues, icon: dataUrl };
+  });
 
   let newItem = { ...formValues, id, order: orderMax };
   if (!formValues.href) {

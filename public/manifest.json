@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "new bookmarks",
 	"author": "ed",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "bookmarks",
 	"icons": {
 		"16": "eFav16.ico",

@@ -236,3 +236,8 @@ nav .tools button.active{
     background: #ddd9d963;
     color: #000;
 }
+.sidebarBookmarkIcon{
+    position: absolute;
+    bottom: 25px;
+    left: 60px;
+}

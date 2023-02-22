@@ -10,7 +10,6 @@ export default function sideSearchConfig(elem) {
   }
   if (elem.keyCode == 27) {
     status = false;
-    console.log("getr out");
   }
 
   return status;
