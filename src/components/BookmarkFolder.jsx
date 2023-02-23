@@ -1,3 +1,4 @@
+import "../styles/BookmarkFolder.scss";
 import folderImg from "../img/folder.png";
 
 function BookmarkFolder({ element, runFolderToofler, runContextMenu }) {

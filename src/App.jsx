@@ -1,5 +1,3 @@
-import "./styles/App.css";
-
 import { useState, useEffect } from "react";
 
 import List from "./components/List";
@@ -8,6 +6,8 @@ import Form from "./components/Form";
 import Search from "./components/Search";
 
 import sideSearchConfig from "./functions/search";
+
+import "./styles/App.css";
 
 function App() {
   const [list, setList] = useState();

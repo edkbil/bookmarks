@@ -1,0 +1,78 @@
+.edit-mode {
+    width: 1320px;
+    margin: auto;
+    text-align: right;
+    padding: 20px 0 0 0;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    .edit-btn {
+        position: relative;
+        border: none;
+        background: none;
+        cursor: pointer;
+
+        &::before {
+            position: absolute;
+            content: "";
+            background: #e1e1e1;
+            width: 30px;
+            height: 13px;
+            border-radius: 30px;
+            right: -35px;
+            bottom: 2px;
+            transition: 0.3s;
+        }
+        &::after {
+            position: absolute;
+            content: "";
+            background: #fff;
+            border: 1px solid #d8d8d8;
+            width: 17px;
+            height: 17px;
+            border-radius: 50%;
+            right: -17px;
+            bottom: -1px;
+            box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.3);
+            transition: 0.5s;
+        }
+        &.active {
+            &::before {
+                background: #2cb154;
+            }
+            &::after {
+                right: -44px;
+            }
+        }
+    }
+    .btn {
+        color: #fff;
+        border: none;
+        padding: 10px;
+        margin: 0 20px 0 0;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .backupBtn {
+        background: #2cb154;
+
+        &:hover {
+            background: #5ccf7e;
+        }
+    }
+    .importBtn {
+        background: #2b85db;
+
+        &:hover {
+            background: #59a2e8;
+        }
+    }
+    .backupLink {
+        color: #2cb154;
+        margin: 0 20px 0 0;
+        transition: 0.3s;
+    }
+}

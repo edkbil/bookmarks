@@ -8,6 +8,7 @@ import {
   editInSidebarListForm,
 } from "../functions/form";
 
+import "../styles/Form.scss";
 import closeImg from "../img/close2.png";
 
 function Form({

@@ -1,3 +1,5 @@
+import "../styles/Tile.scss";
+
 function Tile({ item, ifEditMode, runOnRemove, runEditFrom, dragSet }) {
   return (
     <div

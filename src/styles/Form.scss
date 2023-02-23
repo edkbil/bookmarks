@@ -1,0 +1,146 @@
+.overlay {
+    background: #ffffffb3;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.add-form {
+    background: #f7f7f7;
+    padding: 10px;
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    margin: auto;
+    border-radius: 6px;
+    box-shadow: 0px 0px 9px 2px rgba(0,0,0,0.18);
+    transition: 0.3s;
+
+    .hide-form {
+        width: 15px;
+        height: 15px;
+        position: absolute;
+        right: -20px;
+        top: -20px;
+        cursor: pointer;
+        opacity: 0.3;
+        transition: 0.3s;
+
+        &:hover {
+            opacity: 1;
+        }
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+    input {
+        display: block;
+        margin: 10px auto;
+        border: none;
+        width: 100%;
+        height: 35px;
+        padding: 0 10px 0 10px;
+        margin: 0 0 10px 0;
+        border-radius: 6px;
+
+        &:focus {
+            outline: none;
+        }
+    }
+    button {
+        display: block;
+        margin: 10px auto;
+
+        &[type="submit"] {
+            background: rgb(78, 202, 134);
+            border: none;
+            color: #fff;
+            text-transform: uppercase;
+            padding: 4px 30px 4px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 15px;
+
+            &:hover {
+                background: rgb(46, 138, 87);
+            }
+        }
+    }
+    .setColor {
+        overflow: hidden;
+        /* height: 0px; */
+        transition: 0.5s;
+
+        &.open {
+            height: auto;
+        }
+    }
+    .fileWrap {
+        padding: 10px 0 0 0;
+
+        input {
+            display: none;
+        }
+        .getFile {
+            background: rgb(78, 136, 202);
+            border: none;
+            color: #fff;
+            text-transform: uppercase;
+            padding: 4px 20px 4px 50px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 15px;
+            display: table;
+            margin: auto;
+            position: relative;
+
+            &::before {
+                position: absolute;
+                content: "";
+                background: url('../img/fiel.png') no-repeat;
+                width: 20px;
+                height: 20px;
+                background-size: cover;
+                left: 16px;
+            }
+            &:hover {
+                background: rgb(98, 164, 240);
+            }
+        }
+    }
+    .icon {
+        background: #000;
+        width: 150px;
+        height: 150px;
+        margin: auto;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+        position: relative;
+
+        img {
+            max-width: 70%;
+            max-height: 70%;
+            display: block;
+            margin: auto;
+        }
+    }
+    .sidebarBookmarkIcon {
+        position: absolute;
+        bottom: 25px;
+        left: 60px;
+    }
+}
+.react-colorful{
+    width: 100% !important;
+}

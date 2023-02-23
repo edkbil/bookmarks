@@ -1,5 +1,3 @@
-import "../styles/Sidebar.css";
-
 import { useState, useEffect } from "react";
 import classNames from "classnames";
 
@@ -7,6 +5,8 @@ import SidebarTools from "./SidebarTools";
 import SidebarMenu from "./SidebarMenu";
 import Bookmark from "./Bookmark";
 import BookmarkFolder from "./BookmarkFolder";
+
+import "../styles/Sidebar.scss";
 
 import {
   handleDragStart,

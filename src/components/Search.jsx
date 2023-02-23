@@ -1,4 +1,4 @@
-import "../styles/Search.css";
+import "../styles/Search.scss";
 import Fuse from "fuse.js";
 import { getDB } from "../DB/IndexedDb";
 

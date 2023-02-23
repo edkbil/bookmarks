@@ -1,0 +1,23 @@
+nav {
+    li {
+        .folderHover {
+            background: #000;
+        }
+        &.folder {
+            padding: 0px;
+    
+            li {
+                padding: 0 20px 0 40px;
+            }
+            ul {
+                padding: 0px;
+                display: none;
+            }
+            &.open {
+                ul {
+                    display: block;
+                }
+            }
+        }
+    }
+}

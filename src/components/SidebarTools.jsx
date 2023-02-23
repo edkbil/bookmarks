@@ -1,3 +1,5 @@
+import "../styles/SidebarTools.scss";
+
 import classNames from "classnames";
 
 function SidebarTools({ fixBar, tooglefixBar, runViewAddForm }) {

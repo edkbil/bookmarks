@@ -3,6 +3,8 @@ import classNames from "classnames";
 
 import { setDB, clearDB } from "../DB/IndexedDb";
 
+import "../styles/EditModeTpl.scss";
+
 function EditModeTpl({ importBtn, backupBtn, runEditMode }) {
   const [editMode, setEditMode] = useState(false);
   const toogleEditMode = () => {

@@ -7,6 +7,7 @@ import EditModeTpl from "./EditModeTpl";
 import bdList from "../DB/db.json";
 import { getDB, setDB, removeDB } from "../DB/IndexedDb";
 
+import "../styles/List.scss";
 import addImg from "../img/add.png";
 
 import {

@@ -1,3 +1,5 @@
+import "../styles/SidebarMenu.scss";
+
 function SidebarMenu({
   listItem,
   left,

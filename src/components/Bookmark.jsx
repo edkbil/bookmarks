@@ -1,3 +1,5 @@
+import "../styles/Bookmark.scss";
+
 function Bookmark({
   el,
   runContextMenu,
