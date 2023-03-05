@@ -58,8 +58,12 @@ function App() {
     return { list, sidebarList };
   };
   const handleImportBtn = (list, sidebarList) => {
-    setList(list);
-    setSidebarList(sidebarList);
+    if (!list) {
+      setSidebarList(sidebarList);
+    } else {
+      setList(list);
+      setSidebarList(sidebarList);
+    }
   };
 
   const updateList = (data) => setList(data);

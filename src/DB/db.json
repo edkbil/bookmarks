@@ -16,96 +16,29 @@
         "color": "#092f44",
         "order": 2,
         "id": 1657018593816
-      },
-      {
-        "icon": "data:image/png;base64,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",
-        "href": "https://123apps.com/ru/",
-        "title": "123apps",
-        "order": 3,
-        "color": "#fb3447",
-        "id": 1657018593827
       }
     ],
     "sidebar": [
       {
-        "title": "1 GitHub - typicode/json-server",
-        "href": "https://github.com/typicode/json-server",
+        "title": "Example 1",
+        "href": "https://example.com/",
         "icon": "",
         "order": 1,
         "id": 1327018593812
       },
       {
-        "title": "2 Export multiple functions from a file in React.js",
-        "href": "https://bobbyhadz.com/blog/react-export-multiple-functions#:~:text=Use%20named%20exports%20to%20export,necessary%20in%20a%20single%20file.",
-        "icon": "",
-        "order": 2,
-        "id": 1327018593813
-      },
-      {
-        "title": "3 Export multiple functions from a file in React.js",
-        "href": "https://bobbyhadz.com/blog/react-export-multiple-functions#:~:text=Use%20named%20exports%20to%20export,necessary%20in%20a%20single%20file.",
-        "icon": "",
-        "order": 3,
-        "id": 1327018593713
-      },
-      {
-        "title": "4 Export multiple functions from a file in React.js",
-        "href": "https://bobbyhadz.com/blog/react-export-multiple-functions#:~:text=Use%20named%20exports%20to%20export,necessary%20in%20a%20single%20file.",
-        "icon": "",
-        "order": 4,
-        "id": 1327018593613
-      },
-      {
-        "title": "5 Export multiple functions from a file in React.js",
-        "href": "https://bobbyhadz.com/blog/react-export-multiple-functions#:~:text=Use%20named%20exports%20to%20export,necessary%20in%20a%20single%20file.",
-        "icon": "",
-        "order": 5,
-        "id": 1327018593513
-      },
-      {
-        "title": "6 Export multiple functions from a file in React.js",
-        "href": "https://bobbyhadz.com/blog/react-export-multiple-functions#:~:text=Use%20named%20exports%20to%20export,necessary%20in%20a%20single%20file.",
-        "icon": "",
-        "order": 6,
-        "id": 1327018593413
-      },
-      {
         "folder": true,
-        "title": "folder 2",
+        "title": "folder",
         "order": 7,
         "open": true,
         "id": 1327018593814
       },
       {
-        "title": "7 GitHub - typicode/json-server",
-        "href": "https://github.com/typicode/json-server",
+        "title": "Example 2",
+        "href": "https://example.com/",
         "icon": "",
         "order": 1,
         "id": 1327018593815,
-        "parent": 1327018593814
-      },
-      {
-        "title": "8 Export multiple functions from a file in React.js",
-        "href": "https://bobbyhadz.com/blog/react-export-multiple-functions#:~:text=Use%20named%20exports%20to%20export,necessary%20in%20a%20single%20file.",
-        "icon": "",
-        "order": 2,
-        "id": 1327018593816,
-        "parent": 1327018593814
-      },
-      {
-        "title": "9 GitHub - typicode/json-server",
-        "href": "https://github.com/typicode/json-server",
-        "icon": "",
-        "order": 3,
-        "id": 1327018593817,
-        "parent": 1327018593814
-      },
-      {
-        "title": "10 Export multiple functions from a file in React.js",
-        "href": "https://bobbyhadz.com/blog/react-export-multiple-functions#:~:text=Use%20named%20exports%20to%20export,necessary%20in%20a%20single%20file.",
-        "icon": "",
-        "order": 4,
-        "id": 1327018593818,
         "parent": 1327018593814
       }
     ]

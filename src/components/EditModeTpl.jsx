@@ -1,7 +1,10 @@
 import { useState, useRef } from "react";
 import classNames from "classnames";
 
-import { setDB, clearDB } from "../DB/IndexedDb";
+import {
+  bookmarksImport,
+  bookmarksImportChrome,
+} from "../functions/bookmarksImport";
 
 import "../styles/EditModeTpl.scss";
 
@@ -27,27 +30,20 @@ function EditModeTpl({ importBtn, backupBtn, runEditMode }) {
               type="file"
               ref={inputEl}
               name="file"
-              accept=".json"
+              accept=".json, .html"
               style={{ display: "none" }}
               onChange={(event) => {
+                const type = event.target.files[0].type;
+
                 let reader = new FileReader();
-                reader.addEventListener("load", function (event) {
-                  let result = JSON.parse(reader.result);
-
-                  clearDB("list");
-                  clearDB("sidebar");
-
-                  const listdata = result.appData.list;
-                  listdata.map((el) => {
-                    setDB("list", el.id, el);
-                  });
-
-                  const sidebarData = result.appData.sidebar;
-                  sidebarData.map((el) => {
-                    setDB("sidebar", el.id, el);
-                  });
-
-                  importBtn(listdata, sidebarData);
+                reader.addEventListener("load", async function () {
+                  if (type == "text/html") {
+                    const list = await bookmarksImportChrome(reader);
+                    importBtn(false, list);
+                  } else {
+                    const list = await bookmarksImport(reader);
+                    importBtn(list.listdata, list.sidebarData);
+                  }
                 });
 
                 reader.readAsText(event.target.files[0]);
