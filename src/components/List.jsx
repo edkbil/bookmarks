@@ -17,7 +17,7 @@ import {
   handleDrag,
 } from "../functions/dragAndDrop";
 
-function List({ list, viewAddForm, editFrom, backupBtn, importBtn }) {
+function List({ list, viewAddForm, editFrom, backupBtn, importBtn, position }) {
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     getDB("list").then((res) => {
@@ -61,7 +61,7 @@ function List({ list, viewAddForm, editFrom, backupBtn, importBtn }) {
   return !isLoaded ? (
     <h1>Завантаження...</h1>
   ) : (
-    <article>
+    <article className={position}>
       <div className={classNames("list", { editing: editMode })}>
         {list.list
           .sort((a, b) => a.order - b.order)

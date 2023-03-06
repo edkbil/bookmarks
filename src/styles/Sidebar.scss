@@ -1,6 +1,5 @@
 nav{
     position: fixed;
-    left: -320px;
     top: 0;
     bottom: 0;
     background-color: #ebebebad;
@@ -9,19 +8,65 @@ nav{
     cursor: pointer;
     width: 330px;
 
+    &.left{
+        left: -320px;
+
+        &::before {
+            right: 0px;
+        }
+        &::after {
+            right: -20px;
+        }
+        &:hover {
+            left: 0;
+
+            & ~ article {
+                -webkit-transform: translateX(16em) perspective(600px) rotateY(10deg);
+                -moz-transform: translateX(16em) perspective(600px) rotateY(10deg);
+                -ms-transform: translateX(16em) perspective(600px) rotateY(10deg);
+                -o-transform: translateX(16em) perspective(600px) rotateY(10deg);
+                transform: translateX(16em) perspective(600px) rotateY(10deg);
+
+                &::after {
+                    left: 60%;
+                }
+            }
+        }
+    }
+    &.right{
+        right: -320px;
+
+        &::before {
+            left: 0px;
+        }
+        &::after {
+            left: -20px;
+            transform: rotate(180deg);
+        }
+        &:hover {
+            right: 0;
+
+            & ~ article {
+                transform: translateX(10em) perspective(600px) rotateY(-16deg);
+
+                &::after {
+                    right: 60%;
+                }
+            }
+        }
+    }
+
     &::before {
         position: absolute;
         content: ' ';
         width: 20px;
         height: 100%;
-        right: 0px;
     }
     &::after {
         position: absolute;
         content: ' ';
         width: 0;
         height: 0;
-        right: -20px;
         top: 50%;
         border-width: 15px 10px;
         border-style: solid;
@@ -32,43 +77,47 @@ nav{
         padding: 10px 5px 10px 10px;
     }
     &.fixed {
-        left: 0;
         overflow-x: hidden;
         overflow-y: auto;
 
-        & ~ article {
-            -webkit-transform: translateX(16em) perspective(600px) rotateY(10deg);
-            -moz-transform: translateX(16em) perspective(600px) rotateY(10deg);
-            -ms-transform: translateX(16em) perspective(600px) rotateY(10deg);
-            -o-transform: translateX(16em) perspective(600px) rotateY(10deg);
-            transform: translateX(16em) perspective(600px) rotateY(10deg);
+        &.left{
+            left: 0;
 
+            & ~ article {
+                -webkit-transform: translateX(16em) perspective(600px) rotateY(10deg);
+                -moz-transform: translateX(16em) perspective(600px) rotateY(10deg);
+                -ms-transform: translateX(16em) perspective(600px) rotateY(10deg);
+                -o-transform: translateX(16em) perspective(600px) rotateY(10deg);
+                transform: translateX(16em) perspective(600px) rotateY(10deg);
+            
+                &:after {
+                    left: 60%;
+                }
+            }
+        }
+        &.right{
+            right: 0;
+
+            & ~ article {
+                transform: translateX(10em) perspective(600px) rotateY(-16deg);
+
+                &:after {
+                    right: 60%;
+                }
+            }
+        }
+
+        & ~ article {
             .list {
                 pointer-events: none;
             }
             .edit-mode {
                 pointer-events: none;
             }
-            &:after {
-                left: 60%;
-            }
         }
     }
     &:hover {
-        left: 0;
         overflow-x: hidden;
         overflow-y: auto;
-
-        & ~ article {
-            -webkit-transform: translateX(16em) perspective(600px) rotateY(10deg);
-            -moz-transform: translateX(16em) perspective(600px) rotateY(10deg);
-            -ms-transform: translateX(16em) perspective(600px) rotateY(10deg);
-            -o-transform: translateX(16em) perspective(600px) rotateY(10deg);
-            transform: translateX(16em) perspective(600px) rotateY(10deg);
-
-            &::after {
-                left: 60%;
-            }
-        }
     }
 }

@@ -20,7 +20,7 @@ import { getDB, setDB } from "../DB/IndexedDb";
 
 import { subList, folderToofler, doRemove } from "../functions/sidebar";
 
-function Sidebar({ list, viewAddForm, editFrom, searchRun }) {
+function Sidebar({ list, viewAddForm, editFrom, searchRun, position }) {
   const [isLoadedSidebar, setIsLoadedSidebar] = useState(false);
   useEffect(() => {
     getDB("sidebar").then((res) => {
@@ -103,7 +103,11 @@ function Sidebar({ list, viewAddForm, editFrom, searchRun }) {
     <>
       {menu}
       <nav
-        className={classNames({ fixed: fixBar }, { fixed: searchRun })}
+        className={classNames(
+          { fixed: fixBar },
+          { fixed: searchRun },
+          position
+        )}
         onDragEnter={() => {
           !fixBar && tooglefixBar();
         }}

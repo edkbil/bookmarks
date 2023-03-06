@@ -10,6 +10,8 @@ import sideSearchConfig from "./functions/search";
 import "./styles/App.css";
 
 function App() {
+  const [appPosition, setAppPosition] = useState();
+
   const [list, setList] = useState();
   const [sidebarList, setSidebarList] = useState();
   const [searchForm, setSearchForm] = useState(false);
@@ -21,6 +23,9 @@ function App() {
     const sideSearch = (e) =>
       !showAddForm && setSearchForm(sideSearchConfig(e));
     document.addEventListener("keydown", sideSearch);
+
+    window.screenLeft ? setAppPosition("left") : setAppPosition("right");
+
     return () => {
       document.removeEventListener("keydown", sideSearch);
     };
@@ -78,6 +83,7 @@ function App() {
         viewAddForm={openCreationForm}
         editFrom={runEditFrom}
         searchRun={searchForm}
+        position={appPosition}
       />
       <List
         list={{ list, updateList }}
@@ -85,6 +91,7 @@ function App() {
         editFrom={runEditFrom}
         backupBtn={handleBackupBtn}
         importBtn={handleImportBtn}
+        position={appPosition}
       />
       {showAddForm && (
         <Form
