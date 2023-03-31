@@ -28,6 +28,8 @@ article {
         }
     }
     &.right{
+        transform-origin: 100% 50%;
+
         &::after {
             right: 100%;
             left: 0;

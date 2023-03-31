@@ -24,7 +24,7 @@ function App() {
       !showAddForm && setSearchForm(sideSearchConfig(e));
     document.addEventListener("keydown", sideSearch);
 
-    window.screenLeft ? setAppPosition("left") : setAppPosition("right");
+    window.screenLeft ? setAppPosition("right") : setAppPosition("left");
 
     return () => {
       document.removeEventListener("keydown", sideSearch);

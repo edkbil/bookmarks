@@ -47,7 +47,7 @@ nav{
             right: 0;
 
             & ~ article {
-                transform: translateX(10em) perspective(600px) rotateY(-16deg);
+                transform: translateX(-16em) perspective(600px) rotateY(-10deg);
 
                 &::after {
                     right: 60%;
@@ -99,7 +99,7 @@ nav{
             right: 0;
 
             & ~ article {
-                transform: translateX(10em) perspective(600px) rotateY(-16deg);
+                transform: translateX(-16em) perspective(600px) rotateY(-10deg);
 
                 &:after {
                     right: 60%;
